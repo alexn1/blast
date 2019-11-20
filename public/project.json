@@ -1,0 +1,17 @@
+{
+    "debugMode": 1,
+    "showFPS": false,
+    "frameRate": 60,
+    "id": "gameCanvas",
+    "renderMode": 0,
+    "engineDir": "cocos2d-html5",
+    "jsList": [],
+    "modules": [
+        "core",
+        "transitions",
+        "ccui",
+        "audio",
+        "editbox"
+    ],
+    "noCache": true
+}

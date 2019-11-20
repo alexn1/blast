@@ -1,0 +1,11 @@
+{
+    "plugins": [
+        "@babel/plugin-transform-arrow-functions",
+        "@babel/plugin-transform-block-scoping",
+        ["@babel/plugin-transform-destructuring",    {"loose": true}],
+        ["@babel/plugin-transform-parameters",       {"loose": true}],
+        ["@babel/plugin-transform-classes",          {"loose": true}],
+        ["@babel/plugin-transform-modules-commonjs", {"loose": true, "strict": false}],
+        ["@babel/plugin-transform-shorthand-properties"]
+    ]
+}
