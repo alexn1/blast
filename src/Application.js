@@ -57,20 +57,20 @@ class Application {
         console.log("cc.winSize: " + JSON.stringify(cc.winSize));
         //console.log("window.location:", window.location);
         //console.log("cc.sys:", cc.sys);
-        var homeScene = new HomeScene();
+        const homeScene = new HomeScene();
         homeScene.init();
         cc.director.runScene(homeScene);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     setupResolutionPolicy() {
-        var width;
-        var height;
+        let width;
+        let height;
         //if (cc.sys.isNative) {
         //    width  = Const.NATIVE_WIDTH;
         //    height = Const.NATIVE_HEIGHT;
         //} else {
-            var gameCanvas = document.getElementById("gameCanvas");
+            const gameCanvas = document.getElementById("gameCanvas");
             width  = gameCanvas.width  / gameCanvas.WEB_SCALE;
             height = gameCanvas.height / gameCanvas.WEB_SCALE;
             // The game will be resized when browser size change

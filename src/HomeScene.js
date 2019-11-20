@@ -1,21 +1,29 @@
 "use strict";
 
-var Promise = require("bluebird");
-var Const   = require("./Const");
-var Helper  = require("./Helper");
-var res     = require("./res");
+const Promise = require("bluebird");
+const Const   = require("./Const");
+const Helper  = require("./Helper");
+const res     = require("./res");
 
 
 const N = 9;
 const M = 7;
+const C = 4;
+const K = 2;
 
 const BLOCK_ACTUAL_WIDTH  = 43;
 const BLOCK_ACTUAL_HEIGHT = 48;
 
-const BLOCK_COLOR = [cc.color.RED, cc.color.GREEN, cc.color(0, 177, 244), cc.color.ORANGE, cc.color.MAGENTA];
+const BLOCK_COLOR = [
+    cc.color.RED,
+    cc.color.GREEN,
+    cc.color(0, 177, 244),  // BLUE
+    cc.color.ORANGE,
+    cc.color.MAGENTA
+];
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-var HomeScene = cc.Scene.extend({
+const HomeScene = cc.Scene.extend({
 
     _className      : "HomeScene",
     field           : null,
@@ -49,7 +57,7 @@ var HomeScene = cc.Scene.extend({
         this.addChild(Helper.createBackground(Const.SCENE_BACKGROUND_COLOR));
 
         // title
-        var title = Helper.createLabelTTF("Blast", Helper.getFont(Const.TITLE_FONT_NAME), Const.SCENE_TITLE_FONT_SIZE);
+        const title = Helper.createLabelTTF("Blast", Helper.getFont(Const.TITLE_FONT_NAME), Const.SCENE_TITLE_FONT_SIZE);
         title.setPosition(Helper.toLeftTop(cc.visibleRect, cc.visibleRect.center.x, 30));
         this.addChild(title);
 
