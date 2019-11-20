@@ -23,6 +23,15 @@ var HomeScene = cc.Scene.extend({
         title.setPosition(Helper.toLeftTop(cc.visibleRect, cc.visibleRect.center.x, 30));
         this.addChild(title);
 
+
+        // field
+        const field = new cc.Scale9Sprite(res.field);
+        field.setPosition(cc.winSize.width/2, cc.winSize.height/2);
+        field.width = 200;
+        field.height = 300;
+        this.addChild(field);
+
+
         // block
         const block = new cc.Sprite(res.block);
         block.setPosition(cc.winSize.width/2, cc.winSize.height/2 - 100);
@@ -40,7 +49,6 @@ var HomeScene = cc.Scene.extend({
         block3.setPosition(cc.winSize.width/2, cc.winSize.height/2 + 100);
         block3.setColor(cc.color.GREEN);
         this.addChild(block3);
-
     }
 
 });
