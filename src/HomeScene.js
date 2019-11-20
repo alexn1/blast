@@ -8,7 +8,7 @@ const res     = require("./res");
 
 const N = 9;
 const M = 7;
-const C = 4;
+const C = 5;
 const K = 2;
 
 const BLOCK_ACTUAL_WIDTH  = 43;
@@ -56,10 +56,12 @@ const HomeScene = cc.Scene.extend({
         // background
         this.addChild(Helper.createBackground(Const.SCENE_BACKGROUND_COLOR));
 
+        /*
         // title
         const title = Helper.createLabelTTF("Blast", Helper.getFont(Const.TITLE_FONT_NAME), Const.SCENE_TITLE_FONT_SIZE);
         title.setPosition(Helper.toLeftTop(cc.visibleRect, cc.visibleRect.center.x, 30));
         this.addChild(title);
+        */
 
         // field
         const field = this.field = new cc.Scale9Sprite(res.field);
@@ -79,6 +81,12 @@ const HomeScene = cc.Scene.extend({
         block.setPosition(x, y);
     },
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    onBlockClick(touch, event) {
+        const target = event.getCurrentTarget();
+        const tag = target._tag;
+        console.log("HomeScene.onBlockClick", target._tag);
+    },
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     fillField() {
@@ -86,10 +94,12 @@ const HomeScene = cc.Scene.extend({
         for (let n = 0; n < N; n++) {
             for (let m = 0; m < M; m++) {
                 const block = new cc.Sprite(res.block);
-                const colorIndex = Helper.randomInteger(0, BLOCK_COLOR.length-1);
+                Helper.onNodeClick(block, this.onBlockClick.bind(this));
+                const colorIndex = Helper.randomInteger(0, C-1);
                 const color = BLOCK_COLOR[colorIndex];
                 block.setColor(color);
                 block.setScale(blockScale);
+                block._tag = {n, m, colorIndex};
                 this.placeBlock(block, n, m);
                 this.addChild(block);
             }

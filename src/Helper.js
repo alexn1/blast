@@ -68,6 +68,51 @@ class Helper {
         return Math.round(rand);
     };
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    static onNodeClick(node, callback, hitArea) {
+        cc.eventManager.addListener({
+            event         : cc.EventListener.TOUCH_ONE_BY_ONE,
+            swallowTouches: true,
+            onTouchBegan  : (touch, event) => {
+                //console.log('Helper.onNodeClick:onTouchBegan');
+                if (Helper.isNodeVisible(node) && Helper.hitTest(touch, event, hitArea)) {
+                    return true;
+                }
+            },
+            onTouchEnded  : callback
+        }, node);
+    };
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    static isNodeVisible(node) {
+        if (node.parent) {
+            return node.visible && Helper.isNodeVisible(node.parent);
+        } else {
+            return node.visible;
+        }
+    };
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    static hitTest(touch, event, hitArea) {
+        var location = touch.getLocation();
+        var target = event.getCurrentTarget();
+        //console.log('target:', target);
+        //console.log('touch:', touch);
+        //console.log('event:', event);
+        var locationInNode = target.convertToNodeSpace(location);
+        var s = target.getContentSize();
+        var rect;
+        if (typeof hitArea === 'object' && hitArea !== null) {
+            rect = cc.rect(0 - hitArea.left, 0 - hitArea.bottom, s.width + hitArea.left + hitArea.right, s.height + hitArea.top + hitArea.bottom);
+        } else if (typeof hitArea === 'number') {
+            rect = cc.rect(0 - hitArea, 0 - hitArea, s.width + hitArea * 2, s.height + hitArea * 2);
+        } else {
+            rect = cc.rect(0, 0, s.width, s.height);
+        }
+        //var rect = cc.rect(0, 0, s.width, s.height);
+        return cc.rectContainsPoint(rect, locationInNode);
+    };
+
 }
 
 module.exports = Helper;
