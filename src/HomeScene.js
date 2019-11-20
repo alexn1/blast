@@ -22,6 +22,25 @@ var HomeScene = cc.Scene.extend({
         var title = Helper.createLabelTTF("Blast", Helper.getFont(Const.TITLE_FONT_NAME), Const.SCENE_TITLE_FONT_SIZE);
         title.setPosition(Helper.toLeftTop(cc.visibleRect, cc.visibleRect.center.x, 30));
         this.addChild(title);
+
+        // block
+        const block = new cc.Sprite(res.block);
+        block.setPosition(cc.winSize.width/2, cc.winSize.height/2 - 100);
+        block.setColor(cc.color.RED);
+        this.addChild(block);
+
+        // block
+        const block2 = new cc.Sprite(res.block);
+        block2.setPosition(cc.winSize.width/2, cc.winSize.height/2);
+        block2.setColor(cc.color.BLUE);
+        this.addChild(block2);
+
+        // block
+        const block3 = new cc.Sprite(res.block);
+        block3.setPosition(cc.winSize.width/2, cc.winSize.height/2 + 100);
+        block3.setColor(cc.color.GREEN);
+        this.addChild(block3);
+
     }
 
 });
