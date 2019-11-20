@@ -58,6 +58,7 @@ class Application {
         //console.log("window.location:", window.location);
         //console.log("cc.sys:", cc.sys);
         var homeScene = new HomeScene();
+        homeScene.init();
         cc.director.runScene(homeScene);
     }
 
@@ -65,16 +66,16 @@ class Application {
     setupResolutionPolicy() {
         var width;
         var height;
-        if (cc.sys.isNative) {
-            width  = Const.NATIVE_WIDTH;
-            height = Const.NATIVE_HEIGHT;
-        } else {
+        //if (cc.sys.isNative) {
+        //    width  = Const.NATIVE_WIDTH;
+        //    height = Const.NATIVE_HEIGHT;
+        //} else {
             var gameCanvas = document.getElementById("gameCanvas");
             width  = gameCanvas.width  / gameCanvas.WEB_SCALE;
             height = gameCanvas.height / gameCanvas.WEB_SCALE;
             // The game will be resized when browser size change
             //cc.view.resizeWithBrowserSize(true);
-        }
+        //}
         console.log("cc.winSize before:", JSON.stringify(cc.winSize));
         cc.view.setDesignResolutionSize(width, height, cc.sys.isNative ? cc.ResolutionPolicy.FIXED_WIDTH : cc.ResolutionPolicy.SHOW_ALL);
         //cc.view.setDesignResolutionSize(width, height, cc.sys.isNative ? cc.ResolutionPolicy.EXACT_FIT : cc.ResolutionPolicy.SHOW_ALL);

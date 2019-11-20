@@ -62,6 +62,12 @@ class Helper {
         return cc.p(x, node.height - y);
     };
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    static randomInteger(min, max) {
+        var rand = min + Math.random() * (max - min);
+        return Math.round(rand);
+    };
+
 }
 
 module.exports = Helper;
