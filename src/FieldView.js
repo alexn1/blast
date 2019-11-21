@@ -18,12 +18,12 @@ class FieldView {
         // calc
         const fieldWidth       = this.fieldWidth       = cc.winSize.width;
         const fieldPlaceWidth  = this.fieldPlaceWidth  = fieldWidth - MARGIN*2;
-        const blockPlaceWidth  = this.blockPlaceWidth  = fieldPlaceWidth / Const.N;
-        const blockPlaceScale  = this.blockPlaceScale  = blockPlaceWidth / Const.BLOCK_ACTUAL_WIDTH;
-        const blockPlaceHeight = this.blockPlaceHeight = Const.BLOCK_ACTUAL_HEIGHT * blockPlaceScale;
-        const fieldHeight      = this.fieldHeight      = blockPlaceHeight * Const.M + MARGIN*2;
+        const tilePlaceWidth   = this.tilePlaceWidth   = fieldPlaceWidth / Const.N;
+        const tilePlaceScale   = this.tilePlaceScale   = tilePlaceWidth / Const.TILE_ACTUAL_WIDTH;
+        const tilePlaceHeight  = this.tilePlaceHeight  = Const.TILE_ACTUAL_HEIGHT * tilePlaceScale;
+        const fieldHeight      = this.fieldHeight      = tilePlaceHeight * Const.M + MARGIN*2;
         const fieldPlaceHeight = this.fieldPlaceHeight = fieldHeight - MARGIN*2;
-        const blockScale       = this.blockScale       = blockPlaceScale * 0.95;
+        const tileScale        = this.tileScale        = tilePlaceScale * 0.95;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -40,17 +40,17 @@ class FieldView {
 
         /*
          const colorIndex = 0;
-         const color = Const.BLOCK_COLOR[colorIndex];
+         const color = Const.TILE_COLOR[colorIndex];
          const m = 0;
          const n = 0;
 
-         // block
+         // tile
          const block = new cc.Sprite(res.block);
          block.setColor(color);
-         block.setScale(blockScale);
+         block.setScale(this.tileScale);
          block._tag = {m, n, colorIndex};
-         this.placeBlock(block, m, n);
-         Helper.onNodeClick(block, this.onBlockClick.bind(this));
+         this.placeTile(block, m, n);
+         Helper.onNodeClick(block, this.onTileClick.bind(this));
          this.fieldView.addChild(block);
          */
 
@@ -58,26 +58,25 @@ class FieldView {
             for (let n = 0; n < Const.N; n++) {
                 const colorIndex = field.matrix[m][n];
                 if (colorIndex !== null) {
-                    this.createBlock(m, n, Const.BLOCK_COLOR[colorIndex]);
+                    this.createTile(m, n, Const.TILE_COLOR[colorIndex]);
                 }
             }
         }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    createBlock(m, n, color) {
-        const block = new cc.Sprite(res.block);
-        block.setColor(color);
-        block.setScale(this.blockScale);
-        block._tag = {m, n};
-        this.placeBlock(block, m, n);
-        Helper.onNodeClick(block, this.onBlockClick.bind(this));
-        this.node.addChild(block);
+    createTile(m, n, color) {
+        const tile = new cc.Sprite(res.tile);
+        tile.setColor(color);
+        tile.setScale(this.tileScale);
+        tile._tag = {m, n};
+        this.placeTile(tile, m, n);
+        Helper.onNodeClick(tile, this.onTileClick.bind(this));
+        this.node.addChild(tile);
     }
 
-
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    placeBlock(block, m, n) {
+    placeTile(tile, m, n) {
         if (m >= Const.M) {
             throw new Error(`m out of range: ${m} of ${Const.M}`);
         }
@@ -86,14 +85,14 @@ class FieldView {
         }
         const _m = Const.M - m  - 1;
         const _n =           n;
-        const x = _n * this.blockPlaceWidth  + this.blockPlaceWidth /2 + MARGIN;
-        const y = _m * this.blockPlaceHeight + this.blockPlaceHeight/2 + MARGIN;
-        block.setPosition(x, y);
+        const x = _n * this.tilePlaceWidth  + this.tilePlaceWidth /2 + MARGIN;
+        const y = _m * this.tilePlaceHeight + this.tilePlaceHeight/2 + MARGIN;
+        tile.setPosition(x, y);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    onBlockClick(touch, event) {
-        //console.log("FieldView.onBlockClick", event.getCurrentTarget());
+    onTileClick(touch, event) {
+        //console.log("FieldView.onTileClick", event.getCurrentTarget());
         const target = event.getCurrentTarget();
         const tag = target._tag;
         this.field.findColorArea([tag.m, tag.n]);

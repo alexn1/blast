@@ -6,7 +6,7 @@ module.exports = {
     colorWhite: "res/color/white.png",
 
     // block
-    block: "res/block.png",
+    tile : "res/tile.png",
     field: "res/field.png",
 
     // font

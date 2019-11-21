@@ -35,10 +35,16 @@ class Field {
         console.log("Field.findColorArea", mn);
         console.log("colorIndex:", this.getColorIndex(mn));
 
-        //console.log("top:"   , this.getTop(mn));
-        //console.log("right:" , this.getRight(mn));
-        //console.log("bottom:", this.getBottom(mn));
-        //console.log("left:"  , this.getLeft(mn));
+        const bug = {};
+
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    checkNearby(mn, bug) {
+        const topMN = this.getTop(mn);
+        if (topMN) {
+            console.log("top color:", this.getColorIndex(topMN));
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -18,10 +18,10 @@ Const.N = 9;    // columns
 Const.C = 5;    // color
 Const.K = 2;
 
-Const.BLOCK_ACTUAL_WIDTH  = 43;
-Const.BLOCK_ACTUAL_HEIGHT = 48;
+Const.TILE_ACTUAL_WIDTH  = 43;
+Const.TILE_ACTUAL_HEIGHT = 48;
 
-Const.BLOCK_COLOR = [
+Const.TILE_COLOR = [
     cc.color.RED,
     cc.color.GREEN,
     cc.color(0, 177, 244),  // BLUE
