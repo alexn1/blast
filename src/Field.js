@@ -42,18 +42,22 @@ class Field {
         const top = this.getTop(tile);
         if (top && this.getColorIndex(top) === myColorIndex && !Field.isInBag(bag, top)) {
             Field.putToBag(bag, top);
+            this.checkNearby(top, bag);
         }
         const right = this.getRight(tile);
         if (right && this.getColorIndex(right) === myColorIndex && !Field.isInBag(bag, right)) {
             Field.putToBag(bag, right);
+            this.checkNearby(right, bag);
         }
         const bottom = this.getBottom(tile);
         if (bottom && this.getColorIndex(bottom) === myColorIndex && !Field.isInBag(bag, bottom)) {
             Field.putToBag(bag, bottom);
+            this.checkNearby(bottom, bag);
         }
         const left = this.getLeft(tile);
         if (left && this.getColorIndex(left) === myColorIndex && !Field.isInBag(bag, left)) {
             Field.putToBag(bag, left);
+            this.checkNearby(left, bag);
         }
     }
 
