@@ -43,6 +43,9 @@ class FieldController {
         if (len >= Const.K) {
             this.field.burnTiles(bag);
             this.fieldView.fadeOutTiles(bag);
+            const mBag = this.field.findTilesToMove();
+            console.log("mBag:", mBag);
+            mBag.iterate(tile => this.fieldView.setTileOpacity(tile, 100));
         } else {
             this.fieldView.flashTile(mn);
         }

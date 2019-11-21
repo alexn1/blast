@@ -84,11 +84,9 @@ class FieldView {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     fadeOutTile([m,n]) {
         const tile = this.matrix[m][n];
-
         Helper.runActions(tile, [
             cc.scaleTo(FADE_OUT_TIME, 0.6).easing(cc.easeCubicActionOut())
         ]);
-
         return Helper.runActions(tile, [
             cc.fadeOut(FADE_OUT_TIME).easing(cc.easeCubicActionOut())
         ]).then(function () {
@@ -101,6 +99,12 @@ class FieldView {
     bringToFront(tile) {
         this.lastLocalZOrder++;
         tile.setLocalZOrder(this.lastLocalZOrder);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    setTileOpacity([m, n], opacity) {
+        const tile = this.matrix[m][n];
+        tile.setOpacity(opacity);
     }
 
 }

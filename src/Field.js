@@ -46,22 +46,22 @@ class Field {
     checkNearby(tile, bag) {
         //console.log("Field.checkNearby", tile, JSON.stringify(bag));
         const myColorIndex = this.getColorIndex(tile);
-        const top = this.getTop(tile);
+        const top = Field.calcTop(tile);
         if (top && this.getColorIndex(top) === myColorIndex && !bag.contains(top)) {
             bag.put(top);
             this.checkNearby(top, bag);
         }
-        const right = this.getRight(tile);
+        const right = Field.calcRight(tile);
         if (right && this.getColorIndex(right) === myColorIndex && !bag.contains(right)) {
             bag.put(right);
             this.checkNearby(right, bag);
         }
-        const bottom = this.getBottom(tile);
+        const bottom = Field.calcBottom(tile);
         if (bottom && this.getColorIndex(bottom) === myColorIndex && !bag.contains(bottom)) {
             bag.put(bottom);
             this.checkNearby(bottom, bag);
         }
-        const left = this.getLeft(tile);
+        const left = Field.calcLeft(tile);
         if (left && this.getColorIndex(left) === myColorIndex && !bag.contains(left)) {
             bag.put(left);
             this.checkNearby(left, bag);
@@ -69,25 +69,25 @@ class Field {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    getTop([m, n]) {
+    static calcTop([m, n]) {
         const _m = m - 1;
         return _m >= 0 ? [_m, n] : null;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    getRight([m, n]) {
+    static calcRight([m, n]) {
         const _n = n + 1;
         return _n < Const.N ? [m, _n] : null;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    getBottom([m, n]) {
+    static calcBottom([m, n]) {
         const _m = m + 1;
         return _m < Const.M ? [_m, n] : null;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    getLeft([m, n]) {
+    static calcLeft([m, n]) {
         const _n = n - 1;
         return _n >= 0 ? [m, _n] : null;
     }
@@ -101,6 +101,29 @@ class Field {
         const [m, n] = mn;
         return this.matrix[m][n];
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    isTileExists(tile) {
+        return this.getColorIndex(tile) !== null;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    findTilesToMove() {
+        const bag = new Bag();
+        for (let m = 0; m < Const.M; m++) {
+            for (let n = 0; n < Const.N; n++) {
+                const tile = [m, n];
+                if (this.isTileExists(tile)) {
+                    const bottom = Field.calcBottom(tile);
+                    if (bottom !== null && !this.isTileExists(bottom)) {
+                        bag.put(tile);
+                    }
+                }
+            }
+        }
+        return bag;
+    }
+
 
 }
 
