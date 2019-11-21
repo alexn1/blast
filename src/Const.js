@@ -29,5 +29,7 @@ Const.TILE_COLOR = [
     cc.color.MAGENTA
 ];
 
+Const.COLOR_NAME = ["red", "green", "blue", "orange", "magenta"];
+
 
 module.exports = Const;

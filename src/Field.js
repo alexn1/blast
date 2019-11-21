@@ -34,16 +34,16 @@ class Field {
     findColorArea(mn) {
         console.log("Field.findColorArea", mn);
         console.log("colorIndex:", this.getColorIndex(mn));
-
         const bug = {};
-
+        this.checkNearby(mn, bug);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     checkNearby(mn, bug) {
+        console.log("Field.checkNearby", mn, JSON.stringify(bug));
         const topMN = this.getTop(mn);
         if (topMN) {
-            console.log("top color:", this.getColorIndex(topMN));
+            console.log("top color:", Const.COLOR_NAME[this.getColorIndex(topMN)]);
         }
     }
 
