@@ -125,6 +125,15 @@ class Helper {
         return matrix;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    static runActions(node, actions) {
+        //var Promise = require('bluebird');
+        return new Promise(resolve => {
+            actions.push(cc.callFunc(resolve));
+            node.runAction(cc.sequence(actions));
+        });
+    };
+
 }
 
 module.exports = Helper;

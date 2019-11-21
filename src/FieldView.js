@@ -6,7 +6,8 @@ const Helper  = require("./Helper");
 const Bag     = require("./Bag");
 
 const MARGIN = 15;
-
+const FADE_OUT_TIME = 0.3;
+const FLASH_TIME = 0.2;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class FieldView {
@@ -25,6 +26,8 @@ class FieldView {
         const fieldHeight      = this.fieldHeight      = tilePlaceHeight * Const.M + MARGIN*2;
         const fieldPlaceHeight = this.fieldPlaceHeight = fieldHeight - MARGIN*2;
         const tileScale        = this.tileScale        = tilePlaceScale * 0.95;
+
+        this.lastLocalZOrder = 0;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,9 +65,42 @@ class FieldView {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    setTileOpacity([m,n]) {
+    fadeOutTiles(bag) {
+        bag.iterate((mn) => {
+            this.fadeOutTile(mn);
+        });
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    flashTile([m, n]) {
         const tile = this.matrix[m][n];
-        tile.setOpacity(100);
+        this.bringToFront(tile);
+        return Helper.runActions(tile, [
+            cc.scaleTo(FLASH_TIME/2, this.tileScale + 0.15),
+            cc.scaleTo(FLASH_TIME/2, this.tileScale)
+        ]);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    fadeOutTile([m,n]) {
+        const tile = this.matrix[m][n];
+
+        Helper.runActions(tile, [
+            cc.scaleTo(FADE_OUT_TIME, 0.5).easing(cc.easeCubicActionOut())
+        ]);
+
+        return Helper.runActions(tile, [
+            cc.fadeOut(FADE_OUT_TIME).easing(cc.easeCubicActionOut())
+        ]).then(function () {
+            this.removeChild(tile);
+            this.matrix[m][n] = null;
+        });
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    bringToFront(tile) {
+        this.lastLocalZOrder++;
+        tile.setLocalZOrder(this.lastLocalZOrder);
     }
 
 }

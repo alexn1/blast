@@ -36,13 +36,14 @@ class FieldController {
         //console.log("FieldView.onTileClick", event.getCurrentTarget());
         const target = event.getCurrentTarget();
         const tag = target._tag;
-        const bag = this.field.findColorArea([tag.m, tag.n]);
+        const mn = [tag.m, tag.n];
+        const bag = this.field.findColorArea(mn);
         const len = bag.getLength();
         console.log("bag:", len, bag);
         if (len >= Const.K) {
-            bag.iterate((mn) => {
-                this.fieldView.setTileOpacity(mn, 100);
-            });
+            this.fieldView.fadeOutTiles(bag);
+        } else {
+            this.fieldView.flashTile(mn);
         }
     }
 
