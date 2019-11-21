@@ -44,9 +44,15 @@ class FieldController {
             this.field.burnTiles(bag);
             this.fieldView.fadeOutTiles(bag).then(() => {
                 console.log("fadeOutTiles done");
-                const mBag = this.field.findTilesToMove();
-                console.log("mBag:", mBag);
-                mBag.iterate(mn => this.fieldView.setTileOpacity(mn, 100));
+                const tiles = this.field.findTilesToMove();
+                console.log("tiles:", tiles);
+                tiles.forEach(mn => this.fieldView.setTileOpacity(mn, 100));
+                const moves = [];
+                tiles.forEach(from => {
+                    const to = this.field.findNewPlace(from);
+                    moves.push({from, to});
+                });
+                console.log("moves:", moves);
             });
         } else {
             this.fieldView.flashTile(mn);
