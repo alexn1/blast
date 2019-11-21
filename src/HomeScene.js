@@ -31,7 +31,6 @@ const HomeScene = cc.Scene.extend({
         // field
         const field = this.field = new Field();
 
-
         // fieldView
         const fieldView = this.fieldView = new FieldView();
         const fieldViewNode = fieldView.createNode();

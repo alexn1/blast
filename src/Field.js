@@ -36,6 +36,13 @@ class Field {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    burnTiles(bag) {
+        //console.log("burnTiles:", bag);
+        bag.iterate(([m, n]) => this.matrix[m][n] = null);
+        //console.log("matrix:", this.matrix);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     checkNearby(tile, bag) {
         //console.log("Field.checkNearby", tile, JSON.stringify(bag));
         const myColorIndex = this.getColorIndex(tile);

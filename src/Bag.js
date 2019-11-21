@@ -19,7 +19,7 @@ class Bag {
     iterate(fn) {
         for (let m in this) {
             for (let n in this[m]) {
-                fn([m, n]);
+                fn([parseInt(m), parseInt(n)]);
             }
         }
     }

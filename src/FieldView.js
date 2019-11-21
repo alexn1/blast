@@ -66,7 +66,7 @@ class FieldView {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     fadeOutTiles(bag) {
-        bag.iterate((mn) => {
+        bag.iterate(mn => {
             this.fadeOutTile(mn);
         });
     }
@@ -86,7 +86,7 @@ class FieldView {
         const tile = this.matrix[m][n];
 
         Helper.runActions(tile, [
-            cc.scaleTo(FADE_OUT_TIME, 0.5).easing(cc.easeCubicActionOut())
+            cc.scaleTo(FADE_OUT_TIME, 0.6).easing(cc.easeCubicActionOut())
         ]);
 
         return Helper.runActions(tile, [

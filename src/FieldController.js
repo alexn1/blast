@@ -41,6 +41,7 @@ class FieldController {
         const len = bag.getLength();
         console.log("bag:", len, bag);
         if (len >= Const.K) {
+            this.field.burnTiles(bag);
             this.fieldView.fadeOutTiles(bag);
         } else {
             this.fieldView.flashTile(mn);
