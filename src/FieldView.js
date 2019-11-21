@@ -29,6 +29,7 @@ class FieldView {
         const node = this.node = new cc.Scale9Sprite(res.field);
         node.width  = this.fieldWidth;
         node.height = this.fieldHeight;
+        return node;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
