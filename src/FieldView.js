@@ -1,8 +1,9 @@
 "use strict";
 
-const Const = require("./Const");
+const Const   = require("./Const");
 const res     = require("./res");
 const Helper  = require("./Helper");
+const Bag     = require("./Bag");
 
 const MARGIN = 15;
 
@@ -97,20 +98,16 @@ class FieldView {
         const target = event.getCurrentTarget();
         const tag = target._tag;
         const bag = this.field.findColorArea([tag.m, tag.n]);
-        this.iterateBag(bag, tile => {
-            tile.setOpacity(100);
-        });
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    iterateBag(bag, cb) {
-        for (let m in bag) {
-            for (let n in bag[m]) {
-                //console.log(m, n);
-                cb(this.matrix[m][n]);
-            }
+        const len = bag.getLength();
+        console.log("bag:", len, bag);
+        if (len >= Const.K) {
+            bag.iterate(([m, n]) => {
+                const tile = this.matrix[m][n];
+                tile.setOpacity(100);
+            });
         }
     }
+
 
 
 

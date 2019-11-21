@@ -2,6 +2,7 @@
 
 const Const  = require("./Const");
 const Helper = require("./Helper");
+const Bag    = require("./Bag");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class Field {
@@ -28,10 +29,9 @@ class Field {
     findColorArea(mn) {
         console.log("Field.findColorArea", mn);
         console.log("colorIndex:", this.getColorIndex(mn));
-        const bag = {};
-        Field.putToBag(bag, mn);
+        const bag = new Bag();
+        bag.put(mn);
         this.checkNearby(mn, bag);
-        console.log("bug:", bag);
         return bag;
     }
 
@@ -40,38 +40,25 @@ class Field {
         console.log("Field.checkNearby", tile, JSON.stringify(bag));
         const myColorIndex = this.getColorIndex(tile);
         const top = this.getTop(tile);
-        if (top && this.getColorIndex(top) === myColorIndex && !Field.isInBag(bag, top)) {
-            Field.putToBag(bag, top);
+        if (top && this.getColorIndex(top) === myColorIndex && !bag.contains(top)) {
+            bag.put(top);
             this.checkNearby(top, bag);
         }
         const right = this.getRight(tile);
-        if (right && this.getColorIndex(right) === myColorIndex && !Field.isInBag(bag, right)) {
-            Field.putToBag(bag, right);
+        if (right && this.getColorIndex(right) === myColorIndex && !bag.contains(right)) {
+            bag.put(right);
             this.checkNearby(right, bag);
         }
         const bottom = this.getBottom(tile);
-        if (bottom && this.getColorIndex(bottom) === myColorIndex && !Field.isInBag(bag, bottom)) {
-            Field.putToBag(bag, bottom);
+        if (bottom && this.getColorIndex(bottom) === myColorIndex && !bag.contains(bottom)) {
+            bag.put(bottom);
             this.checkNearby(bottom, bag);
         }
         const left = this.getLeft(tile);
-        if (left && this.getColorIndex(left) === myColorIndex && !Field.isInBag(bag, left)) {
-            Field.putToBag(bag, left);
+        if (left && this.getColorIndex(left) === myColorIndex && !bag.contains(left)) {
+            bag.put(left);
             this.checkNearby(left, bag);
         }
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    static isInBag(bag, [m, n]) {
-        return bag[m] && bag[m][n];
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    static putToBag(bag, [m, n]) {
-        if (!bag[m]) {
-            bag[m] = {};
-        }
-        bag[m][n] = true;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
