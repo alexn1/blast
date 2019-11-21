@@ -13,6 +13,7 @@ const FieldView = require("./FieldView");
 const HomeScene = cc.Scene.extend({
 
     _className      : "HomeScene",
+    field           : null,
     fieldView       : null,
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -27,18 +28,18 @@ const HomeScene = cc.Scene.extend({
         // background
         this.addChild(Helper.createBackground(Const.SCENE_BACKGROUND_COLOR));
 
+        // field
+        const field = this.field = new Field();
+        field.init();
+
         // fieldView
         const fieldView = this.fieldView = new FieldView();
         const fieldViewNode = fieldView.createNode();
         fieldViewNode.setPosition(cc.winSize.width/2, cc.winSize.height/2);
         this.addChild(fieldViewNode);
 
-        // field
-        const f = new Field();
-        f.init();
-
-        // fill field
-        fieldView.fillField(f.matrix);
+        // show field
+        fieldView.setField(field);
     }
 
 });

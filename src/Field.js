@@ -1,6 +1,7 @@
 "use strict";
 
-const Const = require("./Const");
+const Const  = require("./Const");
+const Helper = require("./Helper");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class Field {
@@ -19,14 +20,21 @@ class Field {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     init() {
-        this.matrix[0][0] = 0;
-        this.matrix[1][1] = 1;
+        //this.matrix[0][0] = 0;
+        //this.matrix[1][1] = 1;
+        for (let m = 0; m < Const.M; m++) {
+            for (let n = 0; n < Const.N; n++) {
+                this.matrix[m][n] = Helper.randomInteger(0, Const.C - 1);
+            }
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    fill() {
+    findColorArea(m, n) {
+        console.log("Field.findColorArea", m, n);
 
     }
+
 }
 
 module.exports = Field;

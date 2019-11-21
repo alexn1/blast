@@ -12,7 +12,8 @@ class FieldView {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     constructor() {
-        this.node = null;
+        this.node  = null;
+        this.field = null;
 
         // calc
         const fieldWidth       = this.fieldWidth       = cc.winSize.width;
@@ -22,6 +23,7 @@ class FieldView {
         const blockPlaceHeight = this.blockPlaceHeight = Const.BLOCK_ACTUAL_HEIGHT * blockPlaceScale;
         const fieldHeight      = this.fieldHeight      = blockPlaceHeight * Const.M + MARGIN*2;
         const fieldPlaceHeight = this.fieldPlaceHeight = fieldHeight - MARGIN*2;
+        const blockScale       = this.blockScale       = blockPlaceScale * 0.95;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -33,8 +35,8 @@ class FieldView {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    fillField(matrix) {
-        const blockScale = this.blockPlaceScale * 0.95;
+    setField(field) {
+        this.field = field;
 
         /*
          const colorIndex = 0;
@@ -54,20 +56,23 @@ class FieldView {
 
         for (let m = 0; m < Const.M; m++) {
             for (let n = 0; n < Const.N; n++) {
-                const colorIndex = matrix[m][n];
+                const colorIndex = field.matrix[m][n];
                 if (colorIndex !== null) {
-                    const block = new cc.Sprite(res.block);
-                    block.setColor(Const.BLOCK_COLOR[colorIndex]);
-                    block.setScale(blockScale);
-                    block._tag = {m, n, colorIndex};
-                    this.placeBlock(block, m, n);
-                    Helper.onNodeClick(block, this.onBlockClick.bind(this));
-
-                    this.node.addChild(block);
+                    this.createBlock(m, n, Const.BLOCK_COLOR[colorIndex]);
                 }
             }
         }
+    }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    createBlock(m, n, color) {
+        const block = new cc.Sprite(res.block);
+        block.setColor(color);
+        block.setScale(this.blockScale);
+        block._tag = {m, n};
+        this.placeBlock(block, m, n);
+        Helper.onNodeClick(block, this.onBlockClick.bind(this));
+        this.node.addChild(block);
     }
 
 
@@ -88,10 +93,13 @@ class FieldView {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     onBlockClick(touch, event) {
+        //console.log("FieldView.onBlockClick", event.getCurrentTarget());
         const target = event.getCurrentTarget();
         const tag = target._tag;
-        console.log("FieldView.onBlockClick", tag);
+        this.field.findColorArea(tag.m, tag.n);
     }
+
+
 
 
 }
