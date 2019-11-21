@@ -43,14 +43,20 @@ class FieldView {
         const tile = new cc.Sprite(res.tile);
         tile.setColor(color);
         tile.setScale(this.tileScale);
-        tile._tag = {m, n};
-        this.placeTile(tile, m, n);
+        tile._tag = [m, n];
+        this.placeTile(tile, [m, n]);
         this.node.addChild(this.matrix[m][n] = tile);
         return tile;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    placeTile(tile, m, n) {
+    placeTile(tile, mn) {
+        const [x, y] = this.calcTilePosition(mn);
+        tile.setPosition(x, y);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    calcTilePosition([m, n]) {
         if (m >= Const.M) {
             throw new Error(`m out of range: ${m} of ${Const.M}`);
         }
@@ -61,7 +67,7 @@ class FieldView {
         const _n =           n;
         const x = _n * this.tilePlaceWidth  + this.tilePlaceWidth /2 + MARGIN;
         const y = _m * this.tilePlaceHeight + this.tilePlaceHeight/2 + MARGIN;
-        tile.setPosition(x, y);
+        return [x, y];
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -107,6 +113,27 @@ class FieldView {
         const tile = this.matrix[m][n];
         tile.setOpacity(opacity);
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    makeMoves(moves) {
+        console.log("FieldView.makeMoves:", moves);
+        const MOVE_TIME = 0.2;
+        moves.forEach(({from: [m, n], to: [_m, _n]}) => {
+            if (this.matrix[_m][_n] !== null) {
+                throw new Error("cannot move tile to not empty place");
+            }
+            const tile = this.matrix[_m][_n] = this.matrix[m][n];
+            tile._tag = [_m, _n];
+            this.matrix[m][n] = null;
+
+            const [x, y] = this.calcTilePosition([_m, _n]);
+            Helper.runActions(tile, [
+                cc.moveTo(MOVE_TIME, cc.p(x, y)).easing(cc.easeCubicActionOut())
+            ]);
+        });
+    }
+
+
 
 }
 

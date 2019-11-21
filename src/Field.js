@@ -139,6 +139,15 @@ class Field {
         return _mn;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    applyMoves(moves) {
+        moves.forEach(({from: [m, n], to: [_m, _n]}) => {
+            this.matrix[_m][_n] = this.matrix[m][n];
+            this.matrix[m][n] = null;
+        });
+        console.log("matrix", this.matrix);
+    }
+
 }
 
 module.exports = Field;

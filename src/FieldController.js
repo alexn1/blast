@@ -35,8 +35,7 @@ class FieldController {
     onTileClick(touch, event) {
         //console.log("FieldView.onTileClick", event.getCurrentTarget());
         const target = event.getCurrentTarget();
-        const tag = target._tag;
-        const mn = [tag.m, tag.n];
+        const mn = target._tag;
         const bag = this.field.findColorArea(mn);
         const len = bag.getLength();
         console.log("bag:", len, bag);
@@ -46,13 +45,14 @@ class FieldController {
                 console.log("fadeOutTiles done");
                 const tiles = this.field.findTilesToMove();
                 console.log("tiles:", tiles);
-                tiles.forEach(mn => this.fieldView.setTileOpacity(mn, 100));
+                //tiles.forEach(mn => this.fieldView.setTileOpacity(mn, 100));
                 const moves = [];
                 tiles.forEach(from => {
                     const to = this.field.findNewPlace(from);
                     moves.push({from, to});
                 });
-                console.log("moves:", moves);
+                this.field.applyMoves(moves);
+                this.fieldView.makeMoves(moves);
             });
         } else {
             this.fieldView.flashTile(mn);
