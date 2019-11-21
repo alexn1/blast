@@ -24,15 +24,55 @@ class Field {
         //this.matrix[1][1] = 1;
         for (let m = 0; m < Const.M; m++) {
             for (let n = 0; n < Const.N; n++) {
-                this.matrix[m][n] = Helper.randomInteger(0, Const.C - 1);
+                const colorIndex = Helper.randomInteger(0, Const.C - 1);
+                this.matrix[m][n] = colorIndex;
             }
         }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    findColorArea(m, n) {
-        console.log("Field.findColorArea", m, n);
+    findColorArea(mn) {
+        console.log("Field.findColorArea", mn);
+        console.log("colorIndex:", this.getColorIndex(mn));
 
+        //console.log("top:"   , this.getTop(mn));
+        //console.log("right:" , this.getRight(mn));
+        //console.log("bottom:", this.getBottom(mn));
+        //console.log("left:"  , this.getLeft(mn));
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    getTop([m, n]) {
+        const _m = m - 1;
+        return _m >= 0 ? [_m, n] : null;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    getRight([m, n]) {
+        const _n = n + 1;
+        return _n < Const.M ? [m, _n] : null;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    getBottom([m, n]) {
+        const _m = m + 1;
+        return _m < Const.M ? [_m, n] : null;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    getLeft([m, n]) {
+        const _n = n - 1;
+        return _n >= 0 ? [m, _n] : null;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    getColorIndex(mn) {
+        //console.log("getColorIndex:", mn);
+        if (mn === null) {
+            throw new Error(`getColorIndex: need nm, got: ${mn}`);
+        }
+        const [m, n] = mn;
+        return this.matrix[m][n];
     }
 
 }

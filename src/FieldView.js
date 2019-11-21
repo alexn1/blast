@@ -96,7 +96,7 @@ class FieldView {
         //console.log("FieldView.onBlockClick", event.getCurrentTarget());
         const target = event.getCurrentTarget();
         const tag = target._tag;
-        this.field.findColorArea(tag.m, tag.n);
+        this.field.findColorArea([tag.m, tag.n]);
     }
 
 
