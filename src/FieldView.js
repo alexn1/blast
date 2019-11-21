@@ -66,9 +66,9 @@ class FieldView {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     fadeOutTiles(bag) {
-        bag.iterate(mn => {
-            this.fadeOutTile(mn);
-        });
+        const promises = [];
+        bag.iterate(mn => promises.push(this.fadeOutTile(mn)));
+        return Promise.all(promises);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -83,14 +83,15 @@ class FieldView {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     fadeOutTile([m,n]) {
+        console.log("FieldView.fadeOutTile", m, n);
         const tile = this.matrix[m][n];
         Helper.runActions(tile, [
             cc.scaleTo(FADE_OUT_TIME, 0.6).easing(cc.easeCubicActionOut())
         ]);
         return Helper.runActions(tile, [
             cc.fadeOut(FADE_OUT_TIME).easing(cc.easeCubicActionOut())
-        ]).then(function () {
-            this.removeChild(tile);
+        ]).then(() => {
+            this.node.removeChild(tile);
             this.matrix[m][n] = null;
         });
     }

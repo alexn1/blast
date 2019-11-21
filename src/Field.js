@@ -43,25 +43,25 @@ class Field {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    checkNearby(tile, bag) {
-        //console.log("Field.checkNearby", tile, JSON.stringify(bag));
-        const myColorIndex = this.getColorIndex(tile);
-        const top = Field.calcTop(tile);
+    checkNearby(mn, bag) {
+        //console.log("Field.checkNearby", mn, JSON.stringify(bag));
+        const myColorIndex = this.getColorIndex(mn);
+        const top = Field.calcTop(mn);
         if (top && this.getColorIndex(top) === myColorIndex && !bag.contains(top)) {
             bag.put(top);
             this.checkNearby(top, bag);
         }
-        const right = Field.calcRight(tile);
+        const right = Field.calcRight(mn);
         if (right && this.getColorIndex(right) === myColorIndex && !bag.contains(right)) {
             bag.put(right);
             this.checkNearby(right, bag);
         }
-        const bottom = Field.calcBottom(tile);
+        const bottom = Field.calcBottom(mn);
         if (bottom && this.getColorIndex(bottom) === myColorIndex && !bag.contains(bottom)) {
             bag.put(bottom);
             this.checkNearby(bottom, bag);
         }
-        const left = Field.calcLeft(tile);
+        const left = Field.calcLeft(mn);
         if (left && this.getColorIndex(left) === myColorIndex && !bag.contains(left)) {
             bag.put(left);
             this.checkNearby(left, bag);
@@ -103,8 +103,8 @@ class Field {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    isTileExists(tile) {
-        return this.getColorIndex(tile) !== null;
+    isTileExists(mn) {
+        return this.getColorIndex(mn) !== null;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -112,11 +112,11 @@ class Field {
         const bag = new Bag();
         for (let m = 0; m < Const.M; m++) {
             for (let n = 0; n < Const.N; n++) {
-                const tile = [m, n];
-                if (this.isTileExists(tile)) {
-                    const bottom = Field.calcBottom(tile);
+                const mn = [m, n];
+                if (this.isTileExists(mn)) {
+                    const bottom = Field.calcBottom(mn);
                     if (bottom !== null && !this.isTileExists(bottom)) {
-                        bag.put(tile);
+                        bag.put(mn);
                     }
                 }
             }

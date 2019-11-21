@@ -42,10 +42,12 @@ class FieldController {
         console.log("bag:", len, bag);
         if (len >= Const.K) {
             this.field.burnTiles(bag);
-            this.fieldView.fadeOutTiles(bag);
-            const mBag = this.field.findTilesToMove();
-            console.log("mBag:", mBag);
-            mBag.iterate(tile => this.fieldView.setTileOpacity(tile, 100));
+            this.fieldView.fadeOutTiles(bag).then(() => {
+                console.log("fadeOutTiles done");
+                const mBag = this.field.findTilesToMove();
+                console.log("mBag:", mBag);
+                mBag.iterate(mn => this.fieldView.setTileOpacity(mn, 100));
+            });
         } else {
             this.fieldView.flashTile(mn);
         }
