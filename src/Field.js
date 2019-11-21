@@ -37,7 +37,7 @@ class Field {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     checkNearby(tile, bag) {
-        console.log("Field.checkNearby", tile, JSON.stringify(bag));
+        //console.log("Field.checkNearby", tile, JSON.stringify(bag));
         const myColorIndex = this.getColorIndex(tile);
         const top = this.getTop(tile);
         if (top && this.getColorIndex(top) === myColorIndex && !bag.contains(top)) {

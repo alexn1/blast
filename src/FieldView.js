@@ -14,7 +14,6 @@ class FieldView {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     constructor() {
         this.node   = null;
-        this.field  = null;
         this.matrix = Helper.createMatrix(Const.M, Const.N);
 
         // calc
@@ -37,44 +36,14 @@ class FieldView {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    setField(field) {
-        this.field = field;
-
-        /*
-         const colorIndex = 0;
-         const color = Const.TILE_COLOR[colorIndex];
-         const m = 0;
-         const n = 0;
-
-         // tile
-         const block = new cc.Sprite(res.block);
-         block.setColor(color);
-         block.setScale(this.tileScale);
-         block._tag = {m, n, colorIndex};
-         this.placeTile(block, m, n);
-         Helper.onNodeClick(block, this.onTileClick.bind(this));
-         this.fieldView.addChild(block);
-         */
-
-        for (let m = 0; m < Const.M; m++) {
-            for (let n = 0; n < Const.N; n++) {
-                const colorIndex = field.matrix[m][n];
-                if (colorIndex !== null) {
-                    this.createTile(m, n, Const.TILE_COLOR[colorIndex]);
-                }
-            }
-        }
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     createTile(m, n, color) {
         const tile = new cc.Sprite(res.tile);
         tile.setColor(color);
         tile.setScale(this.tileScale);
         tile._tag = {m, n};
         this.placeTile(tile, m, n);
-        Helper.onNodeClick(tile, this.onTileClick.bind(this));
         this.node.addChild(this.matrix[m][n] = tile);
+        return tile;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -93,23 +62,10 @@ class FieldView {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    onTileClick(touch, event) {
-        //console.log("FieldView.onTileClick", event.getCurrentTarget());
-        const target = event.getCurrentTarget();
-        const tag = target._tag;
-        const bag = this.field.findColorArea([tag.m, tag.n]);
-        const len = bag.getLength();
-        console.log("bag:", len, bag);
-        if (len >= Const.K) {
-            bag.iterate(([m, n]) => {
-                const tile = this.matrix[m][n];
-                tile.setOpacity(100);
-            });
-        }
+    setTileOpacity([m,n]) {
+        const tile = this.matrix[m][n];
+        tile.setOpacity(100);
     }
-
-
-
 
 }
 

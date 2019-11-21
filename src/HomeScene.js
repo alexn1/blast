@@ -1,13 +1,12 @@
 "use strict";
 
-const Promise = require("bluebird");
-const Const   = require("./Const");
-const Helper  = require("./Helper");
-const res     = require("./res");
-const Field   = require("./Field");
-const FieldView = require("./FieldView");
-
-
+const Promise         = require("bluebird");
+const Const           = require("./Const");
+const Helper          = require("./Helper");
+const res             = require("./res");
+const Field           = require("./Field");
+const FieldView       = require("./FieldView");
+const FieldController = require("./FieldController");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const HomeScene = cc.Scene.extend({
@@ -15,6 +14,7 @@ const HomeScene = cc.Scene.extend({
     _className      : "HomeScene",
     field           : null,
     fieldView       : null,
+    fieldController : null,
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ctor(options) {
@@ -30,7 +30,7 @@ const HomeScene = cc.Scene.extend({
 
         // field
         const field = this.field = new Field();
-        field.init();
+
 
         // fieldView
         const fieldView = this.fieldView = new FieldView();
@@ -38,8 +38,9 @@ const HomeScene = cc.Scene.extend({
         fieldViewNode.setPosition(cc.winSize.width/2, cc.winSize.height/2);
         this.addChild(fieldViewNode);
 
-        // show field
-        fieldView.setField(field);
+        // fieldController
+        const fieldController = this.fieldController = new FieldController(field, fieldView);
+        fieldController.startGame();
     }
 
 });
