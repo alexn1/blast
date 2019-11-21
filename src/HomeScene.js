@@ -4,29 +4,13 @@ const Promise = require("bluebird");
 const Const   = require("./Const");
 const Helper  = require("./Helper");
 const res     = require("./res");
-
-
-const N = 9;
-const M = 7;
-const C = 5;
-const K = 2;
-
-const BLOCK_ACTUAL_WIDTH  = 43;
-const BLOCK_ACTUAL_HEIGHT = 48;
-
-const BLOCK_COLOR = [
-    cc.color.RED,
-    cc.color.GREEN,
-    cc.color(0, 177, 244),  // BLUE
-    cc.color.ORANGE,
-    cc.color.MAGENTA
-];
+const Field   = require("./Field");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const HomeScene = cc.Scene.extend({
 
     _className      : "HomeScene",
-    field           : null,
+    fieldView       : null,
     fieldWidth      : null,
     fieldHeight     : null,
     fieldPlaceWidth : null,
@@ -43,10 +27,10 @@ const HomeScene = cc.Scene.extend({
         // calc
         const fieldWidth       = this.fieldWidth       = cc.winSize.width;
         const fieldPlaceWidth  = this.fieldPlaceWidth  = fieldWidth - 15*2;
-        const blockPlaceWidth  = this.blockPlaceWidth  = fieldPlaceWidth / N;
-        const blockPlaceScale  = this.blockPlaceScale  = blockPlaceWidth / BLOCK_ACTUAL_WIDTH;
-        const blockPlaceHeight = this.blockPlaceHeight = BLOCK_ACTUAL_HEIGHT * blockPlaceScale;
-        const fieldHeight      = this.fieldHeight      = blockPlaceHeight * M + 15*2;
+        const blockPlaceWidth  = this.blockPlaceWidth  = fieldPlaceWidth / Const.N;
+        const blockPlaceScale  = this.blockPlaceScale  = blockPlaceWidth / Const.BLOCK_ACTUAL_WIDTH;
+        const blockPlaceHeight = this.blockPlaceHeight = Const.BLOCK_ACTUAL_HEIGHT * blockPlaceScale;
+        const fieldHeight      = this.fieldHeight      = blockPlaceHeight * Const.M + 15*2;
         const fieldPlaceHeight = this.fieldPlaceHeight = fieldHeight - 15*2;
     },
 
@@ -56,28 +40,35 @@ const HomeScene = cc.Scene.extend({
         // background
         this.addChild(Helper.createBackground(Const.SCENE_BACKGROUND_COLOR));
 
-        /*
-        // title
-        const title = Helper.createLabelTTF("Blast", Helper.getFont(Const.TITLE_FONT_NAME), Const.SCENE_TITLE_FONT_SIZE);
-        title.setPosition(Helper.toLeftTop(cc.visibleRect, cc.visibleRect.center.x, 30));
-        this.addChild(title);
-        */
+        // fieldView
+        const fieldView = this.fieldView = new cc.Scale9Sprite(res.field);
+        fieldView.setPosition(cc.winSize.width/2, cc.winSize.height/2);
+        fieldView.width  = this.fieldWidth;
+        fieldView.height = this.fieldHeight;
+        this.addChild(fieldView);
 
-        // field
-        const field = this.field = new cc.Scale9Sprite(res.field);
-        field.setPosition(cc.winSize.width/2, cc.winSize.height/2);
-        field.width  = this.fieldWidth;
-        field.height = this.fieldHeight;
-        this.addChild(field);
+
+
+        const f = new Field();
+        f.init();
 
         // fill field
-        this.fillField();
+        this.fillField(f.matrix);
+
     },
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    placeBlock(block, n, m) {
-        const x = this.field.x - this.fieldPlaceWidth /2 + n * this.blockPlaceWidth  + this.blockPlaceWidth /2;
-        const y = this.field.y - this.fieldPlaceHeight/2 + m * this.blockPlaceHeight + this.blockPlaceHeight/2;
+    placeBlock(block, m, n) {
+        if (m >= Const.M) {
+            throw new Error(`m out of range: ${m} of ${Const.M}`);
+        }
+        if (n >= Const.N) {
+            throw new Error(`n out of range: ${n} of ${Const.N}`);
+        }
+        const _m = Const.M - m  - 1;
+        const _n =           n;
+        const x = this.fieldView.x - this.fieldPlaceWidth /2 + _n * this.blockPlaceWidth  + this.blockPlaceWidth /2;
+        const y = this.fieldView.y - this.fieldPlaceHeight/2 + _m * this.blockPlaceHeight + this.blockPlaceHeight/2;
         block.setPosition(x, y);
     },
 
@@ -85,23 +76,41 @@ const HomeScene = cc.Scene.extend({
     onBlockClick(touch, event) {
         const target = event.getCurrentTarget();
         const tag = target._tag;
-        console.log("HomeScene.onBlockClick", target._tag);
+        console.log("HomeScene.onBlockClick", tag);
     },
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    fillField() {
+    fillField(matrix) {
         const blockScale = this.blockPlaceScale * 0.95;
-        for (let n = 0; n < N; n++) {
-            for (let m = 0; m < M; m++) {
-                const block = new cc.Sprite(res.block);
-                Helper.onNodeClick(block, this.onBlockClick.bind(this));
-                const colorIndex = Helper.randomInteger(0, C-1);
-                const color = BLOCK_COLOR[colorIndex];
-                block.setColor(color);
-                block.setScale(blockScale);
-                block._tag = {n, m, colorIndex};
-                this.placeBlock(block, n, m);
-                this.addChild(block);
+
+        /*
+        const colorIndex = 0;
+        const color = Const.BLOCK_COLOR[colorIndex];
+        const m = 6;
+        const n = 8;
+
+        // block
+        const block = new cc.Sprite(res.block);
+        block.setColor(color);
+        block.setScale(blockScale);
+        block._tag = {m, n, colorIndex};
+        this.placeBlock(block, m, n);
+        Helper.onNodeClick(block, this.onBlockClick.bind(this));
+        this.addChild(block);
+        */
+
+        for (let m = 0; m < Const.M; m++) {
+            for (let n = 0; n < Const.N; n++) {
+                const colorIndex = matrix[m][n];
+                if (colorIndex !== null) {
+                    const block = new cc.Sprite(res.block);
+                    block.setColor(Const.BLOCK_COLOR[colorIndex]);
+                    block.setScale(blockScale);
+                    block._tag = {m, n, colorIndex};
+                    this.placeBlock(block, m, n);
+                    Helper.onNodeClick(block, this.onBlockClick.bind(this));
+                    this.addChild(block);
+                }
             }
         }
     }
