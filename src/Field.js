@@ -8,13 +8,7 @@ class Field {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     constructor() {
-        this.matrix = new Array(Const.M);
-        for (let m = 0; m < Const.M; m++) {
-            this.matrix[m] = new Array(Const.N);
-            for (let n = 0; n < Const.N; n++) {
-                this.matrix[m][n] = null;
-            }
-        }
+        this.matrix = Helper.createMatrix(Const.M, Const.N);
         //console.log("matrix:", this.matrix);
     }
 
@@ -34,17 +28,46 @@ class Field {
     findColorArea(mn) {
         console.log("Field.findColorArea", mn);
         console.log("colorIndex:", this.getColorIndex(mn));
-        const bug = {};
-        this.checkNearby(mn, bug);
+        const bag = {};
+        Field.putToBag(bag, mn);
+        this.checkNearby(mn, bag);
+        console.log("bug:", bag);
+        return bag;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    checkNearby(mn, bug) {
-        console.log("Field.checkNearby", mn, JSON.stringify(bug));
-        const topMN = this.getTop(mn);
-        if (topMN) {
-            console.log("top color:", Const.COLOR_NAME[this.getColorIndex(topMN)]);
+    checkNearby(tile, bag) {
+        console.log("Field.checkNearby", tile, JSON.stringify(bag));
+        const myColorIndex = this.getColorIndex(tile);
+        const top = this.getTop(tile);
+        if (top && this.getColorIndex(top) === myColorIndex && !Field.isInBag(bag, top)) {
+            Field.putToBag(bag, top);
         }
+        const right = this.getRight(tile);
+        if (right && this.getColorIndex(right) === myColorIndex && !Field.isInBag(bag, right)) {
+            Field.putToBag(bag, right);
+        }
+        const bottom = this.getBottom(tile);
+        if (bottom && this.getColorIndex(bottom) === myColorIndex && !Field.isInBag(bag, bottom)) {
+            Field.putToBag(bag, bottom);
+        }
+        const left = this.getLeft(tile);
+        if (left && this.getColorIndex(left) === myColorIndex && !Field.isInBag(bag, left)) {
+            Field.putToBag(bag, left);
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    static isInBag(bag, [m, n]) {
+        return bag[m] && bag[m][n];
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    static putToBag(bag, [m, n]) {
+        if (!bag[m]) {
+            bag[m] = {};
+        }
+        bag[m][n] = true;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,7 +79,7 @@ class Field {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     getRight([m, n]) {
         const _n = n + 1;
-        return _n < Const.M ? [m, _n] : null;
+        return _n < Const.N ? [m, _n] : null;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

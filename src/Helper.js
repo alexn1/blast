@@ -113,6 +113,18 @@ class Helper {
         return cc.rectContainsPoint(rect, locationInNode);
     };
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    static createMatrix(M, N) {
+        const matrix = new Array(M);
+        for (let m = 0; m < M; m++) {
+            matrix[m] = new Array(N);
+            for (let n = 0; n < N; n++) {
+                matrix[m][n] = null;
+            }
+        }
+        return matrix;
+    }
+
 }
 
 module.exports = Helper;

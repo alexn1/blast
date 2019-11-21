@@ -12,8 +12,9 @@ class FieldView {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     constructor() {
-        this.node  = null;
-        this.field = null;
+        this.node   = null;
+        this.field  = null;
+        this.matrix = Helper.createMatrix(Const.M, Const.N);
 
         // calc
         const fieldWidth       = this.fieldWidth       = cc.winSize.width;
@@ -72,7 +73,7 @@ class FieldView {
         tile._tag = {m, n};
         this.placeTile(tile, m, n);
         Helper.onNodeClick(tile, this.onTileClick.bind(this));
-        this.node.addChild(tile);
+        this.node.addChild(this.matrix[m][n] = tile);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -95,9 +96,21 @@ class FieldView {
         //console.log("FieldView.onTileClick", event.getCurrentTarget());
         const target = event.getCurrentTarget();
         const tag = target._tag;
-        this.field.findColorArea([tag.m, tag.n]);
+        const bag = this.field.findColorArea([tag.m, tag.n]);
+        this.iterateBag(bag, tile => {
+            tile.setOpacity(100);
+        });
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    iterateBag(bag, cb) {
+        for (let m in bag) {
+            for (let n in bag[m]) {
+                //console.log(m, n);
+                cb(this.matrix[m][n]);
+            }
+        }
+    }
 
 
 
