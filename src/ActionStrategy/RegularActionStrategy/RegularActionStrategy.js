@@ -69,12 +69,10 @@ class RegularActionStrategy extends ActionStrategy {
                     field.applyMoves(moves);
                     return fieldView.makeMoves(moves).then(() => {
                         const mns = field.getEmptyTilesMNs();
-
-                        /*
+                        fillStrategy.refill(field, mns);
                         console.log("new tiles:", mns);
-                        mns.forEach(([m, n]) => this.createTile([m,n], field.getColorIndex([m, n]), 0));
+                        mns.forEach(([m, n]) => fieldView.createTile([m,n], field.getColorIndex([m, n]), 0));
                         return fieldView.fadeInTiles(mns);
-                        */
                     });
                 });
             } else {

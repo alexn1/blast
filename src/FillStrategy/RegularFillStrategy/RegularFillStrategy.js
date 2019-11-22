@@ -20,8 +20,12 @@ class RegularFillStrategy extends FillStrategy {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     refill(field, mns) {
-
+        mns.forEach(([m, n]) => {
+            const colorIndex = Helper.randomInteger(0, Const.C - 1);
+            field.setTile([m, n], new RegularTile(colorIndex));
+        });
     }
+
 }
 
 module.exports = RegularFillStrategy;

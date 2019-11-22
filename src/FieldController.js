@@ -14,6 +14,9 @@ class FieldController {
         this.fieldView    = fieldView;
         this.fillStrategy = fillStrategy;
         this.busy         = false;
+
+        // events
+        this.fieldView.onTileClick = this.onTileClick.bind(this);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -28,31 +31,22 @@ class FieldController {
             for (let n = 0; n < Const.N; n++) {
                 const colorIndex = this.field.getColorIndex([m, n]);
                 if (colorIndex !== null) {
-                    this.createTile([m,n], colorIndex);
+                    this.fieldView.createTile([m, n], colorIndex);
                 }
             }
         }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    createTile([m,n], colorIndex, opacity = 255) {
-        const color = Const.TILE_COLOR[colorIndex];
-        const tile = this.fieldView.createTile(m, n, color);
-        tile.setOpacity(opacity);
-        Helper.onNodeClick(tile, this.onTileClick.bind(this));
-        return tile;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    onTileClick(touch, event) {
-        //console.log("FieldView.onTileClick", event.getCurrentTarget());
+    onTileClick(mn) {
+        //console.log("FieldView.onTileClick", mn);
         if (this.busy) {
             console.warn("busy");
             return;
         }
         return Promise.try(() => {
             this.busy = true;
-            const mn = event.getCurrentTarget()._tag;
+
             const tile = this.field.getTile(mn);
             console.log("tile:", tile);
             return tile.createActionStrategy().action(this.field, this.fieldView, this.fillStrategy, mn);

@@ -17,6 +17,7 @@ class FieldView {
     constructor() {
         this.node   = null;
         this.matrix = Helper.createMatrix(Const.M, Const.N);
+        this.onTileClick = null;
 
         // calc
         const fieldWidth       = this.fieldWidth       = cc.winSize.width;
@@ -40,13 +41,16 @@ class FieldView {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    createTile(m, n, color) {
+    createTile([m, n], colorIndex, opacity = 255) {
+        const color = Const.TILE_COLOR[colorIndex];
         const tile = new cc.Sprite(res.tile);
         tile.setColor(color);
         tile.setScale(this.tileScale);
+        tile.setOpacity(opacity);
         tile._tag = [m, n];
         this.placeTile(tile, [m, n]);
         this.node.addChild(this.matrix[m][n] = tile);
+        Helper.onNodeClick(tile, this._onTileClick.bind(this));
         return tile;
     }
 
@@ -152,6 +156,15 @@ class FieldView {
         ]);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    _onTileClick(touch, event) {
+        console.log("FieldView.onTileClick");
+        if (this.onTileClick) {
+            const mn = event.getCurrentTarget()._tag;
+            this.onTileClick(mn);
+        }
+
+    }
 
 
 }
