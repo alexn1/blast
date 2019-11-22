@@ -15,14 +15,17 @@ class Field {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     init() {
-        //this.matrix[0][0] = 0;
-        //this.matrix[1][1] = 1;
         for (let m = 0; m < Const.M; m++) {
             for (let n = 0; n < Const.N; n++) {
                 const colorIndex = Helper.randomInteger(0, Const.C - 1);
-                this.matrix[m][n] = colorIndex;
+                this.matrix[m][n] = this.createTile(colorIndex);
             }
         }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    createTile(colorIndex) {
+        return colorIndex;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -118,18 +121,17 @@ class Field {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     fillNewTiles() {
-        const tiles = [];
+        const mns = [];
         for (let m = 0; m < Const.M; m++) {
             for (let n = 0; n < Const.N; n++) {
                 if (!this.isTileExists([m,n])) {
                     const colorIndex = Helper.randomInteger(0, Const.C - 1);
                     this.matrix[m][n] = colorIndex;
-                    tiles.push([m,n]);
+                    mns.push([m,n]);
                 }
-
             }
         }
-        return tiles;
+        return mns;
     }
 
 }

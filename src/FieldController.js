@@ -26,7 +26,7 @@ class FieldController {
     fillView() {
         for (let m = 0; m < Const.M; m++) {
             for (let n = 0; n < Const.N; n++) {
-                const colorIndex = this.field.matrix[m][n];
+                const colorIndex = this.field.getColorIndex([m, n]);
                 if (colorIndex !== null) {
                     this.createTile([m,n], colorIndex);
                 }
@@ -52,8 +52,7 @@ class FieldController {
         }
         return Promise.try(() => {
             this.busy = true;
-            const target = event.getCurrentTarget();
-            const mn = target._tag;
+            const mn = event.getCurrentTarget()._tag;
             const bag = this.field.findColorArea(mn);
             const len = bag.getLength();
             //console.log("bag:", len, bag);
@@ -65,10 +64,10 @@ class FieldController {
                     //console.log("moves:", moves);
                     this.field.applyMoves(moves);
                     return this.fieldView.makeMoves(moves).then(() => {
-                        const tiles = this.field.fillNewTiles();
-                        console.log("tiles:", tiles);
-                        tiles.forEach(([m, n]) => this.createTile([m,n], this.field.matrix[m][n], 0));
-                        return this.fieldView.fadeInTiles(tiles);
+                        const mns = this.field.fillNewTiles();
+                        console.log("new tiles:", mns);
+                        mns.forEach(([m, n]) => this.createTile([m,n], this.field.getColorIndex([m, n]), 0));
+                        return this.fieldView.fadeInTiles(mns);
                     });
                 });
             } else {
