@@ -58,8 +58,6 @@ class FieldController {
             const len = bag.getLength();
             //console.log("bag:", len, bag);
             if (len >= Const.K) {
-
-                console.log("soundBurn", res.soundBurn);
                 cc.audioEngine.playEffect(res.soundBurn);
                 this.field.burnTiles(bag);
                 return this.fieldView.fadeOutTiles(bag).then(() => {
