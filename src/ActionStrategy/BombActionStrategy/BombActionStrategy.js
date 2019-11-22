@@ -1,13 +1,15 @@
 "use strict";
 
+const ActionStrategy = require("../ActionStrategy");
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-class Tile {
+class BombActionStrategy extends ActionStrategy {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    createActionStrategy() {
-
+    action(field, fieldView, fillStrategy, mn) {
+        console.log("BombActionStrategy.action");
     }
 
 }
 
-module.exports = Tile;
+module.exports = BombActionStrategy;

@@ -1,9 +1,9 @@
 'use strict';
 
-const Promise        = require("bluebird");
-const ActionStrategy = require("../ActionStrategy");
-const Const          = require("../../Const");
-const res            =  require("../../res");
+const Promise            = require("bluebird");
+const ActionStrategy     = require("../ActionStrategy");
+const Const              = require("../../Const");
+const res                =  require("../../res");
 const BottomMoveStrategy = require("../../MoveStrategy/BottomMoveStrategy/BottomMoveStrategy");
 const Bag                = require("../../Bag");
 const Field              = require("../../Field");
@@ -82,14 +82,9 @@ class RegularActionStrategy extends ActionStrategy {
                     field.applyMoves(moves);
                     return fieldView.makeMoves(moves).then(() => {
                         const emptyMNs = field.getEmptyTilesMNs();
-                        fillStrategy.refillField(field, emptyMNs);
                         //console.log("new tiles:", emptyMNs);
-                        emptyMNs.forEach(([m, n]) => {
-                            const tile = field.getTile([m, n]);
-                            if (tile instanceof RegularTile) {
-                                fieldView.createTile([m,n], tile.colorIndex, 0);
-                            }
-                        });
+                        fillStrategy.refillField(field, emptyMNs);
+                        fillStrategy.refillFieldView(field, fieldView, emptyMNs);
                         return fieldView.fadeInTiles(emptyMNs);
                     });
                 });

@@ -54,6 +54,17 @@ class FieldView {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    createBombTile([m, n]) {
+        const tile = new cc.Sprite(res.bomb);
+        tile.setScale(this.tileScale);
+        tile._tag = [m, n];
+        this.placeTile(tile, [m, n]);
+        this.node.addChild(this.matrix[m][n] = tile);
+        Helper.onNodeClick(tile, this._onTileClick.bind(this));
+        return tile;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     placeTile(tile, mn) {
         const [x, y] = this.calcTilePosition(mn);
         tile.setPosition(x, y);

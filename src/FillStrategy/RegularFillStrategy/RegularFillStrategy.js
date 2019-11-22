@@ -4,6 +4,7 @@ const FillStrategy = require("../FillStrategy");
 const Const        = require("../../Const");
 const Helper       = require("../../Helper");
 const RegularTile  = require("../../Tile/RegularTile/RegularTile");
+const BombTile     = require("../../Tile/BombTile/BombTile");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class RegularFillStrategy extends FillStrategy {
@@ -23,8 +24,10 @@ class RegularFillStrategy extends FillStrategy {
         for (let m = 0; m < Const.M; m++) {
             for (let n = 0; n < Const.N; n++) {
                 const tile = field.getTile([m, n]);
-                if (tile && tile instanceof RegularTile) {
+                if (tile instanceof RegularTile) {
                     fieldView.createTile([m, n], tile.colorIndex);
+                } else if (tile instanceof BombTile) {
+                    fieldView.createBombTile([m, n]);
                 }
             }
         }
@@ -32,9 +35,32 @@ class RegularFillStrategy extends FillStrategy {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     refillField(field, mns) {
-        mns.forEach(([m, n]) => {
-            const colorIndex = Helper.randomInteger(0, Const.C - 1);
-            field.setTile([m, n], new RegularTile(colorIndex));
+        let bombI = -1;
+        if (mns.length > 3) {
+            bombI = Helper.randomInteger(0, mns.length-1);
+        }
+
+        for (let i = 0; i < mns.length; i++) {
+            const [m, n] = mns[i];
+            if (bombI === i) {
+                field.setTile([m, n], new BombTile());
+            } else {
+                const colorIndex = Helper.randomInteger(0, Const.C - 1);
+                field.setTile([m, n], new RegularTile(colorIndex));
+            }
+        }
+
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    refillFieldView(field, fieldView, emptyMNs) {
+        emptyMNs.forEach(([m, n]) => {
+            const tile = field.getTile([m, n]);
+            if (tile instanceof RegularTile) {
+                fieldView.createTile([m,n], tile.colorIndex, 0);
+            } else if (tile instanceof BombTile) {
+                fieldView.createBombTile([m, n]);
+            }
         });
     }
 

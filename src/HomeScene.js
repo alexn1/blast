@@ -1,13 +1,12 @@
 "use strict";
 
-const Promise            = require("bluebird");
-const Const              = require("./Const");
-const Helper             = require("./Helper");
-const res                = require("./res");
-const Field              = require("./Field");
-const FieldView          = require("./FieldView");
-const FieldController    = require("./FieldController");
-
+const Promise             = require("bluebird");
+const Const               = require("./Const");
+const Helper              = require("./Helper");
+const res                 = require("./res");
+const Field               = require("./Field");
+const FieldView           = require("./FieldView");
+const FieldController     = require("./FieldController");
 const RegularFillStrategy = require("./FillStrategy/RegularFillStrategy/RegularFillStrategy");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

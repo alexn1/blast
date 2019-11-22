@@ -1,7 +1,7 @@
 "use strict";
 
-const Const       = require("./Const");
-const Helper      = require("./Helper");
+const Const  = require("./Const");
+const Helper = require("./Helper");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class Field {
