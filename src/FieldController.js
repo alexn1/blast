@@ -1,8 +1,8 @@
 "use strict";
 
-const Const  = require("./Const");
-const Helper = require("./Helper");
-
+const Promise = require("bluebird");
+const Const   = require("./Const");
+const Helper  = require("./Helper");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class FieldController {
@@ -12,6 +12,7 @@ class FieldController {
         this.field        = field;
         this.fieldView    = fieldView;
         this.moveStrategy = moveStrategy;
+        this.busy         = false;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -37,31 +38,40 @@ class FieldController {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     onTileClick(touch, event) {
         //console.log("FieldView.onTileClick", event.getCurrentTarget());
-        const target = event.getCurrentTarget();
-        const mn = target._tag;
-        const bag = this.field.findColorArea(mn);
-        const len = bag.getLength();
-        //console.log("bag:", len, bag);
-        if (len >= Const.K) {
-            this.field.burnTiles(bag);
-            this.fieldView.fadeOutTiles(bag).then(() => {
-                const moves = this.moveStrategy.findMoves(this.field);
-                //console.log("moves:", moves);
-                this.field.applyMoves(moves);
-                this.fieldView.makeMoves(moves).then(() => {
-                    const tiles = this.field.fillNewTiles();
-                    console.log("tiles:", tiles);
-                    tiles.forEach(([m, n]) => {
-                        const colorIndex = this.field.matrix[m][n];
-                        const color = Const.TILE_COLOR[colorIndex];
-                        const tile = this.fieldView.createTile(m, n, color);
-                        Helper.onNodeClick(tile, this.onTileClick.bind(this));
+        if (this.busy) {
+            console.warn("busy");
+            return;
+        }
+        return Promise.try(() => {
+            this.busy = true;
+            const target = event.getCurrentTarget();
+            const mn = target._tag;
+            const bag = this.field.findColorArea(mn);
+            const len = bag.getLength();
+            //console.log("bag:", len, bag);
+            if (len >= Const.K) {
+                this.field.burnTiles(bag);
+                return this.fieldView.fadeOutTiles(bag).then(() => {
+                    const moves = this.moveStrategy.findMoves(this.field);
+                    //console.log("moves:", moves);
+                    this.field.applyMoves(moves);
+                    return this.fieldView.makeMoves(moves).then(() => {
+                        const tiles = this.field.fillNewTiles();
+                        console.log("tiles:", tiles);
+                        tiles.forEach(([m, n]) => {
+                            const colorIndex = this.field.matrix[m][n];
+                            const color = Const.TILE_COLOR[colorIndex];
+                            const tile = this.fieldView.createTile(m, n, color);
+                            Helper.onNodeClick(tile, this.onTileClick.bind(this));
+                        });
                     });
                 });
-            });
-        } else {
-            this.fieldView.flashTile(mn);
-        }
+            } else {
+                return this.fieldView.flashTile(mn);
+            }
+        }).finally(() => {
+            this.busy = false;
+        });
     }
 
 }
