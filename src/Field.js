@@ -3,7 +3,6 @@
 const Const       = require("./Const");
 const Helper      = require("./Helper");
 const Bag         = require("./Bag");
-const RegularTile = require("./Tile/RegularTile/RegularTile");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class Field {
@@ -14,23 +13,30 @@ class Field {
         //console.log("matrix:", this.matrix);
     }
 
+    /*
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     fill() {
+        console.log("this.matrix:", this.matrix);
         for (let m = 0; m < Const.M; m++) {
             for (let n = 0; n < Const.N; n++) {
                 const colorIndex = Helper.randomInteger(0, Const.C - 1);
-                this.matrix[m][n] = this.createTile(colorIndex);
+                this.setTile([m, n], this.createTile(colorIndex));
             }
         }
     }
+    */
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    findColorArea(mn) {
-        //console.log("Field.findColorArea", mn, this.getColorIndex(mn));
-        const bag = new Bag();
-        bag.put(mn);
-        this.checkNearby(mn, bag);
-        return bag;
+    setTile([m, n], tile) {
+        if (this.isTileExists([m, n])) {
+            throw new Error("setTile: tile place not empty");
+        }
+        this.matrix[m][n] = tile;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    getTile([m, n]) {
+        return this.matrix[m][n];
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,33 +47,8 @@ class Field {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    checkNearby(mn, bag) {
-        //console.log("Field.checkNearby", mn, JSON.stringify(bag));
-        const myColorIndex = this.getColorIndex(mn);
-        const top = Field.calcTop(mn);
-        if (top && this.getColorIndex(top) === myColorIndex && !bag.contains(top)) {
-            bag.put(top);
-            this.checkNearby(top, bag);
-        }
-        const right = Field.calcRight(mn);
-        if (right && this.getColorIndex(right) === myColorIndex && !bag.contains(right)) {
-            bag.put(right);
-            this.checkNearby(right, bag);
-        }
-        const bottom = Field.calcBottom(mn);
-        if (bottom && this.getColorIndex(bottom) === myColorIndex && !bag.contains(bottom)) {
-            bag.put(bottom);
-            this.checkNearby(bottom, bag);
-        }
-        const left = Field.calcLeft(mn);
-        if (left && this.getColorIndex(left) === myColorIndex && !bag.contains(left)) {
-            bag.put(left);
-            this.checkNearby(left, bag);
-        }
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     static calcTop([m, n]) {
+        console.log("Field.calcTop");
         const _m = m - 1;
         return _m >= 0 ? [_m, n] : null;
     }
@@ -90,10 +71,12 @@ class Field {
         return _n >= 0 ? [m, _n] : null;
     }
 
+    /*
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     createTile(colorIndex) {
         return new RegularTile(colorIndex);
     }
+    */
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     getColorIndex(mn) {
@@ -121,13 +104,15 @@ class Field {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    fillNewTiles() {
+    getEmptyTilesMNs() {
         const mns = [];
         for (let m = 0; m < Const.M; m++) {
             for (let n = 0; n < Const.N; n++) {
                 if (!this.isTileExists([m,n])) {
+                    /*
                     const colorIndex = Helper.randomInteger(0, Const.C - 1);
-                    this.matrix[m][n] = this.createTile(colorIndex);
+                    this.setTile([m, n], this.createTile(colorIndex));
+                    */
                     mns.push([m,n]);
                 }
             }

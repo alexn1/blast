@@ -7,7 +7,8 @@ const res                = require("./res");
 const Field              = require("./Field");
 const FieldView          = require("./FieldView");
 const FieldController    = require("./FieldController");
-const BottomMoveStrategy = require("./MoveStrategy/BottomMoveStrategy/BottomMoveStrategy");
+
+const RegularFillStrategy = require("./FillStrategy/RegularFillStrategy/RegularFillStrategy");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const HomeScene = cc.Scene.extend({
@@ -39,7 +40,7 @@ const HomeScene = cc.Scene.extend({
         this.addChild(fieldViewNode);
 
         // fieldController
-        const fieldController = this.fieldController = new FieldController(field, fieldView, new BottomMoveStrategy());
+        const fieldController = this.fieldController = new FieldController(field, fieldView, new RegularFillStrategy());
         fieldController.startGame();
     }
 

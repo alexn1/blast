@@ -1,6 +1,8 @@
 "use strict";
 
-const Tile = require("../Tile");
+const Tile                  = require("../Tile");
+const Const                 = require("../../Const");
+const RegularActionStrategy = require("../../ActionStrategy/RegularActionStrategy/RegularActionStrategy");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class RegularTile {
@@ -9,6 +11,13 @@ class RegularTile {
     constructor(colorIndex) {
         this.colorIndex = colorIndex;
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    createActionStrategy() {
+        console.log("RegularTile.createActionStrategy");
+        return new RegularActionStrategy();
+    }
+
 }
 
 module.exports = RegularTile;

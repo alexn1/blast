@@ -9,16 +9,16 @@ const res     = require("./res");
 class FieldController {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    constructor(field, fieldView, moveStrategy) {
+    constructor(field, fieldView, fillStrategy) {
         this.field        = field;
         this.fieldView    = fieldView;
-        this.moveStrategy = moveStrategy;
+        this.fillStrategy = fillStrategy;
         this.busy         = false;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     startGame() {
-        this.field.fill();
+        this.fillStrategy.fill(this.field);
         this.fillView();
     }
 
@@ -53,27 +53,11 @@ class FieldController {
         return Promise.try(() => {
             this.busy = true;
             const mn = event.getCurrentTarget()._tag;
-            const bag = this.field.findColorArea(mn);
-            const len = bag.getLength();
-            //console.log("bag:", len, bag);
-            if (len >= Const.K) {
-                cc.audioEngine.playEffect(res.soundBurn);
-                this.field.burnTiles(bag);
-                return this.fieldView.fadeOutTiles(bag).then(() => {
-                    const moves = this.moveStrategy.findMoves(this.field);
-                    //console.log("moves:", moves);
-                    this.field.applyMoves(moves);
-                    return this.fieldView.makeMoves(moves).then(() => {
-                        const mns = this.field.fillNewTiles();
-                        console.log("new tiles:", mns);
-                        mns.forEach(([m, n]) => this.createTile([m,n], this.field.getColorIndex([m, n]), 0));
-                        return this.fieldView.fadeInTiles(mns);
-                    });
-                });
-            } else {
-                cc.audioEngine.playEffect(res.soundWrong);
-                return this.fieldView.flashTile(mn);
-            }
+            const tile = this.field.getTile(mn);
+            console.log("tile:", tile);
+            return tile.createActionStrategy().action(this.field, this.fieldView, this.fillStrategy, mn);
+        }).catch(err => {
+            console.error(err);
         }).finally(() => {
             this.busy = false;
         });
