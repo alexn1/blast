@@ -10,8 +10,8 @@ class Helper {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     static resToArray(res) {
-        var assets = [];
-        for (var id in res) {
+        const assets = [];
+        for (let id in res) {
             assets.push(res[id]);
         }
         return assets;
@@ -19,7 +19,7 @@ class Helper {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     static createBackground(color) {
-        var background = new cc.Sprite(res.colorWhite);
+        const background = new cc.Sprite(res.colorWhite);
         background.setAnchorPoint(0, 0);
         background.setColor(color);
         background.setScale(
@@ -51,8 +51,8 @@ class Helper {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     static createLabelTTF(title, font, fontSize, dimensions) {
         fontSize = fontSize || 16;
-        var scaleFactor = cc.director.getContentScaleFactor();
-        var labelTTF = new cc.LabelTTF(title, font, fontSize * scaleFactor, dimensions);
+        const scaleFactor = cc.director.getContentScaleFactor();
+        const labelTTF = new cc.LabelTTF(title, font, fontSize * scaleFactor, dimensions);
         labelTTF.setScale(1 / scaleFactor);
         return labelTTF;
     };
@@ -64,7 +64,7 @@ class Helper {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     static randomInteger(min, max) {
-        var rand = min + Math.random() * (max - min);
+        const rand = min + Math.random() * (max - min);
         return Math.round(rand);
     };
 
@@ -94,14 +94,14 @@ class Helper {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     static hitTest(touch, event, hitArea) {
-        var location = touch.getLocation();
-        var target = event.getCurrentTarget();
+        const location = touch.getLocation();
+        const target = event.getCurrentTarget();
         //console.log('target:', target);
         //console.log('touch:', touch);
         //console.log('event:', event);
-        var locationInNode = target.convertToNodeSpace(location);
-        var s = target.getContentSize();
-        var rect;
+        const locationInNode = target.convertToNodeSpace(location);
+        const s = target.getContentSize();
+        let rect;
         if (typeof hitArea === 'object' && hitArea !== null) {
             rect = cc.rect(0 - hitArea.left, 0 - hitArea.bottom, s.width + hitArea.left + hitArea.right, s.height + hitArea.top + hitArea.bottom);
         } else if (typeof hitArea === 'number') {
@@ -109,7 +109,7 @@ class Helper {
         } else {
             rect = cc.rect(0, 0, s.width, s.height);
         }
-        //var rect = cc.rect(0, 0, s.width, s.height);
+        //const rect = cc.rect(0, 0, s.width, s.height);
         return cc.rectContainsPoint(rect, locationInNode);
     };
 
@@ -127,7 +127,6 @@ class Helper {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     static runActions(node, actions) {
-        //var Promise = require('bluebird');
         return new Promise(resolve => {
             actions.push(cc.callFunc(resolve));
             node.runAction(cc.sequence(actions));

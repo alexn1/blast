@@ -5,9 +5,10 @@ const res     = require("./res");
 const Helper  = require("./Helper");
 const Bag     = require("./Bag");
 
-const MARGIN = 15;
+const MARGIN        =  15;
 const FADE_OUT_TIME = 0.3;
-const FLASH_TIME = 0.2;
+const FLASH_TIME    = 0.2;
+const MOVE_TIME     = 0.2;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class FieldView {
@@ -89,7 +90,7 @@ class FieldView {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     fadeOutTile([m,n]) {
-        console.log("FieldView.fadeOutTile", m, n);
+        //console.log("FieldView.fadeOutTile", m, n);
         const tile = this.matrix[m][n];
         Helper.runActions(tile, [
             cc.scaleTo(FADE_OUT_TIME, 0.6).easing(cc.easeCubicActionOut())
@@ -117,20 +118,21 @@ class FieldView {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     makeMoves(moves) {
         console.log("FieldView.makeMoves:", moves);
-        const MOVE_TIME = 0.2;
-        moves.forEach(({from: [m, n], to: [_m, _n]}) => {
-            if (this.matrix[_m][_n] !== null) {
-                throw new Error("cannot move tile to not empty place");
-            }
-            const tile = this.matrix[_m][_n] = this.matrix[m][n];
-            tile._tag = [_m, _n];
-            this.matrix[m][n] = null;
+        moves.forEach(move => this.makeMove(move));
+    }
 
-            const [x, y] = this.calcTilePosition([_m, _n]);
-            Helper.runActions(tile, [
-                cc.moveTo(MOVE_TIME, cc.p(x, y)).easing(cc.easeCubicActionOut())
-            ]);
-        });
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    makeMove({from: [m, n], to: [_m, _n]}) {
+        if (this.matrix[_m][_n] !== null) {
+            throw new Error("makeMove: cannot move tile to not empty place");
+        }
+        const tile = this.matrix[_m][_n] = this.matrix[m][n];
+        tile._tag = [_m, _n];
+        this.matrix[m][n] = null;
+        const [x, y] = this.calcTilePosition([_m, _n]);
+        return Helper.runActions(tile, [
+            cc.moveTo(MOVE_TIME, cc.p(x, y)).easing(cc.easeCubicActionOut())
+        ]);
     }
 
 

@@ -54,7 +54,6 @@ class Application {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     run() {
         //console.log("Application.run");
-        console.log("cc.winSize: " + JSON.stringify(cc.winSize));
         //console.log("window.location:", window.location);
         //console.log("cc.sys:", cc.sys);
         const homeScene = new HomeScene();

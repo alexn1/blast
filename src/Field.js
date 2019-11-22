@@ -27,8 +27,7 @@ class Field {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     findColorArea(mn) {
-        console.log("Field.findColorArea", mn);
-        console.log("colorIndex:", this.getColorIndex(mn));
+        //console.log("Field.findColorArea", mn, this.getColorIndex(mn));
         const bag = new Bag();
         bag.put(mn);
         this.checkNearby(mn, bag);
@@ -96,7 +95,7 @@ class Field {
     getColorIndex(mn) {
         //console.log("getColorIndex:", mn);
         if (mn === null) {
-            throw new Error(`getColorIndex: need nm, got: ${mn}`);
+            throw new Error("getColorIndex: need nm but got null");
         }
         const [m, n] = mn;
         return this.matrix[m][n];
@@ -141,11 +140,12 @@ class Field {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     applyMoves(moves) {
+        console.log("Field.applyMoves", moves);
         moves.forEach(({from: [m, n], to: [_m, _n]}) => {
             this.matrix[_m][_n] = this.matrix[m][n];
             this.matrix[m][n] = null;
         });
-        console.log("matrix", this.matrix);
+        //console.log("matrix", this.matrix);
     }
 
 }

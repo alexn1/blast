@@ -24,7 +24,8 @@ class FieldController {
             for (let n = 0; n < Const.N; n++) {
                 const colorIndex = this.field.matrix[m][n];
                 if (colorIndex !== null) {
-                    const tile = this.fieldView.createTile(m, n, Const.TILE_COLOR[colorIndex]);
+                    const color = Const.TILE_COLOR[colorIndex];
+                    const tile = this.fieldView.createTile(m, n, color);
                     Helper.onNodeClick(tile, this.onTileClick.bind(this));
                 }
             }
@@ -38,13 +39,12 @@ class FieldController {
         const mn = target._tag;
         const bag = this.field.findColorArea(mn);
         const len = bag.getLength();
-        console.log("bag:", len, bag);
+        //console.log("bag:", len, bag);
         if (len >= Const.K) {
             this.field.burnTiles(bag);
             this.fieldView.fadeOutTiles(bag).then(() => {
-                console.log("fadeOutTiles done");
                 const tiles = this.field.findTilesToMove();
-                console.log("tiles:", tiles);
+                console.log("tiles to move:", tiles);
                 //tiles.forEach(mn => this.fieldView.setTileOpacity(mn, 100));
                 const moves = [];
                 tiles.forEach(from => {
