@@ -6,6 +6,8 @@ const Helper       = require("../../Helper");
 const RegularTile  = require("../../Tile/RegularTile/RegularTile");
 const BombTile     = require("../../Tile/BombTile/BombTile");
 
+const MIN_BURN_TILES_TO_GET_BOMB = 6;
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class RegularFillStrategy extends FillStrategy {
 
@@ -36,10 +38,9 @@ class RegularFillStrategy extends FillStrategy {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     refillField(field, mns) {
         let bombI = -1;
-        if (mns.length > 3) {
+        if (mns.length >= MIN_BURN_TILES_TO_GET_BOMB) {
             bombI = Helper.randomInteger(0, mns.length-1);
         }
-
         for (let i = 0; i < mns.length; i++) {
             const [m, n] = mns[i];
             if (bombI === i) {
