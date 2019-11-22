@@ -3,7 +3,6 @@
 const Const   = require("./Const");
 const res     = require("./res");
 const Helper  = require("./Helper");
-const Bag     = require("./Bag");
 
 const MARGIN     =  15;
 const FADE_TIME  = 0.3;
@@ -86,9 +85,9 @@ class FieldView {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    fadeOutTiles(bag) {
+    fadeOutTiles(mns) {
         const promises = [];
-        bag.iterate(mn => promises.push(this.fadeOutTile(mn)));
+        mns.forEach(mn => promises.push(this.fadeOutTile(mn)));
         return Promise.all(promises);
     }
 

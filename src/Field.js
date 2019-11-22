@@ -2,7 +2,6 @@
 
 const Const       = require("./Const");
 const Helper      = require("./Helper");
-const Bag         = require("./Bag");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class Field {
@@ -27,9 +26,9 @@ class Field {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    burnTiles(bag) {
-        //console.log("burnTiles:", bag);
-        bag.iterate(([m, n]) => this.matrix[m][n] = null);
+    burnTiles(mns) {
+        //console.log("burnTiles:", mns);
+        mns.forEach(([m, n]) => this.matrix[m][n] = null);
         //console.log("matrix:", this.matrix);
     }
 

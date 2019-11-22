@@ -22,7 +22,7 @@ class RegularActionStrategy extends ActionStrategy {
         const bag = new Bag();
         bag.put(mn);
         this._checkNearby(field, mn, bag);
-        return bag;
+        return bag.toArray();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -71,27 +71,26 @@ class RegularActionStrategy extends ActionStrategy {
         //console.log("RegularActionStrategy.action", field, fieldView, mn);
         const RegularTile = require("../../Tile/RegularTile/RegularTile");
         return Promise.try(() => {
-            const bag = this._findColorArea(field, mn);
-            const len = bag.getLength();
-            //console.log("bag:", len, bag);
-            if (len >= Const.K) {
+            const colorMNs = this._findColorArea(field, mn);
+            //console.log("colorMNs:", colorMNs.length, colorMNs);
+            if (colorMNs.length >= Const.K) {
                 cc.audioEngine.playEffect(res.soundBurn);
-                field.burnTiles(bag);
-                return fieldView.fadeOutTiles(bag).then(() => {
+                field.burnTiles(colorMNs);
+                return fieldView.fadeOutTiles(colorMNs).then(() => {
                     const moves = new BottomMoveStrategy().findMoves(field);
                     //console.log("moves:", moves);
                     field.applyMoves(moves);
                     return fieldView.makeMoves(moves).then(() => {
-                        const mns = field.getEmptyTilesMNs();
-                        fillStrategy.refillField(field, mns);
-                        //console.log("new tiles:", mns);
-                        mns.forEach(([m, n]) => {
+                        const emptyMNs = field.getEmptyTilesMNs();
+                        fillStrategy.refillField(field, emptyMNs);
+                        //console.log("new tiles:", emptyMNs);
+                        emptyMNs.forEach(([m, n]) => {
                             const tile = field.getTile([m, n]);
                             if (tile instanceof RegularTile) {
                                 fieldView.createTile([m,n], tile.colorIndex, 0);
                             }
                         });
-                        return fieldView.fadeInTiles(mns);
+                        return fieldView.fadeInTiles(emptyMNs);
                     });
                 });
             } else {
