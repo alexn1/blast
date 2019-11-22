@@ -1,7 +1,7 @@
 "use strict";
 
-const Const        = require("./Const");
-const MoveStrategy = require("./MoveStrategy");
+const Const        = require("../../Const");
+const MoveStrategy = require("../MoveStrategy");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class BottomMoveStrategy extends MoveStrategy {

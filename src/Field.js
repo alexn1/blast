@@ -1,8 +1,9 @@
 "use strict";
 
-const Const  = require("./Const");
-const Helper = require("./Helper");
-const Bag    = require("./Bag");
+const Const       = require("./Const");
+const Helper      = require("./Helper");
+const Bag         = require("./Bag");
+const RegularTile = require("./Tile/RegularTile/RegularTile");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class Field {
@@ -14,18 +15,13 @@ class Field {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    init() {
+    fill() {
         for (let m = 0; m < Const.M; m++) {
             for (let n = 0; n < Const.N; n++) {
                 const colorIndex = Helper.randomInteger(0, Const.C - 1);
                 this.matrix[m][n] = this.createTile(colorIndex);
             }
         }
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    createTile(colorIndex) {
-        return colorIndex;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -95,18 +91,23 @@ class Field {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    createTile(colorIndex) {
+        return new RegularTile(colorIndex);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     getColorIndex(mn) {
         //console.log("getColorIndex:", mn);
         if (mn === null) {
             throw new Error("getColorIndex: need nm but got null");
         }
         const [m, n] = mn;
-        return this.matrix[m][n];
+        return this.matrix[m][n].colorIndex;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    isTileExists(mn) {
-        return this.getColorIndex(mn) !== null;
+    isTileExists([m, n]) {
+        return this.matrix[m][n] != null;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -116,7 +117,7 @@ class Field {
             this.matrix[_m][_n] = this.matrix[m][n];
             this.matrix[m][n] = null;
         });
-        //console.log("matrix", this.matrix);
+        console.log("matrix", this.matrix);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -126,7 +127,7 @@ class Field {
             for (let n = 0; n < Const.N; n++) {
                 if (!this.isTileExists([m,n])) {
                     const colorIndex = Helper.randomInteger(0, Const.C - 1);
-                    this.matrix[m][n] = colorIndex;
+                    this.matrix[m][n] = this.createTile(colorIndex);
                     mns.push([m,n]);
                 }
             }

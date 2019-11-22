@@ -7,7 +7,7 @@ const res                = require("./res");
 const Field              = require("./Field");
 const FieldView          = require("./FieldView");
 const FieldController    = require("./FieldController");
-const BottomMoveStrategy = require("./BottomMoveStrategy");
+const BottomMoveStrategy = require("./MoveStrategy/BottomMoveStrategy/BottomMoveStrategy");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const HomeScene = cc.Scene.extend({
