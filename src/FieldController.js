@@ -48,8 +48,16 @@ class FieldController {
                 const moves = this.moveStrategy.findMoves(this.field);
                 //console.log("moves:", moves);
                 this.field.applyMoves(moves);
-                this.fieldView.makeMoves(moves);
-
+                this.fieldView.makeMoves(moves).then(() => {
+                    const tiles = this.field.fillNewTiles();
+                    console.log("tiles:", tiles);
+                    tiles.forEach(([m, n]) => {
+                        const colorIndex = this.field.matrix[m][n];
+                        const color = Const.TILE_COLOR[colorIndex];
+                        const tile = this.fieldView.createTile(m, n, color);
+                        Helper.onNodeClick(tile, this.onTileClick.bind(this));
+                    });
+                });
             });
         } else {
             this.fieldView.flashTile(mn);
