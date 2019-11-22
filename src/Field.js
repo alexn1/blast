@@ -107,38 +107,6 @@ class Field {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    findTilesToMove() {
-        //const bag = new Bag();
-        const tiles = [];
-        for (let m = 0; m < Const.M; m++) {
-            for (let n = 0; n < Const.N; n++) {
-                const mn = [m, n];
-                if (this.isTileExists(mn)) {
-                    const bottom = Field.calcBottom(mn);
-                    if (bottom !== null && !this.isTileExists(bottom)) {
-                        tiles.push(mn);
-                    }
-                }
-            }
-        }
-        return tiles;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    findNewPlace([m, n]) {
-        let _mn = [m, n];
-        let bottom = Field.calcBottom(_mn);
-        if (bottom === null || this.isTileExists(bottom)) {
-            throw new Error(`tile [${m},${n}] do not need new place`);
-        }
-        while (bottom !== null && !this.isTileExists(bottom)) {
-            _mn = bottom;
-            bottom = Field.calcBottom(_mn);
-        }
-        return _mn;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     applyMoves(moves) {
         console.log("Field.applyMoves", moves);
         moves.forEach(({from: [m, n], to: [_m, _n]}) => {
