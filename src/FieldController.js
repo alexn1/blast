@@ -2,15 +2,16 @@
 
 const Const  = require("./Const");
 const Helper = require("./Helper");
-const MoveToBottomStrategy = require("./MoveToBottomStrategy");
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class FieldController {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    constructor(field, fieldView) {
-        this.field     = field;
-        this.fieldView = fieldView;
+    constructor(field, fieldView, moveStrategy) {
+        this.field        = field;
+        this.fieldView    = fieldView;
+        this.moveStrategy = moveStrategy;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -44,7 +45,7 @@ class FieldController {
         if (len >= Const.K) {
             this.field.burnTiles(bag);
             this.fieldView.fadeOutTiles(bag).then(() => {
-                const moves = new MoveToBottomStrategy(this.field).findMoves();
+                const moves = this.moveStrategy.findMoves(this.field);
                 //console.log("moves:", moves);
                 this.field.applyMoves(moves);
                 this.fieldView.makeMoves(moves);

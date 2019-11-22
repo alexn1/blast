@@ -3,21 +3,17 @@
 const Const        = require("./Const");
 const MoveStrategy = require("./MoveStrategy");
 
-class MoveToBottomStrategy extends MoveStrategy{
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    constructor(field) {
-        super(field);
-    }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+class MoveToBottomStrategy extends MoveStrategy {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    findMoves() {
+    findMoves(field) {
         console.log("MoveToBottomStrategy.findMoves");
         const moves = [];
         for (let n = 0; n < Const.N; n++) {
             let column = new Array(Const.M);
             for (let m = 0; m < Const.M; m++) {
-                column[m] = this.field.isTileExists([m, n]) ? m : null;
+                column[m] = field.isTileExists([m, n]) ? m : null;
             }
             //console.log("original column:", JSON.stringify(column));
             column = column.filter(m => m !== null);
