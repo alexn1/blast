@@ -10,7 +10,12 @@ const res                = require("../../res");
 class BombActionStrategy extends ActionStrategy {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    action(field, fieldView, fillStrategy, mn) {
+    constructor(field, fieldView) {
+        super(field, fieldView);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    action(fillStrategy, mn) {
         console.log("BombActionStrategy.action");
         return Promise.try(() => {
             const mns = [mn];
@@ -32,17 +37,17 @@ class BombActionStrategy extends ActionStrategy {
             }
             //console.log("mns:", mns);
             cc.audioEngine.playEffect(res.soundBurn);
-            field.burnTiles(mns);
-            return fieldView.fadeOutTiles(mns).then(() => {
-                const moves = new BottomMoveStrategy().findMoves(field);
+            this.field.burnTiles(mns);
+            return this.fieldView.fadeOutTiles(mns).then(() => {
+                const moves = new BottomMoveStrategy().findMoves(this.field);
                 //console.log("moves:", moves);
-                field.applyMoves(moves);
-                return fieldView.makeMoves(moves).then(() => {
-                    const emptyMNs = field.getEmptyTilesMNs();
+                this.field.applyMoves(moves);
+                return this.fieldView.makeMoves(moves).then(() => {
+                    const emptyMNs = this.field.getEmptyTilesMNs();
                     //console.log("new tiles:", emptyMNs);
                     fillStrategy.refillField(emptyMNs);
                     fillStrategy.refillFieldView(emptyMNs);
-                    return fieldView.fadeInTiles(emptyMNs);
+                    return this.fieldView.fadeInTiles(emptyMNs);
                 });
             });
         });

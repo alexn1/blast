@@ -36,7 +36,7 @@ class FieldController {
             this.busy = true;
             const tile = this.field.getTile(mn);
             console.log("tile:", tile);
-            return tile.createActionStrategy().action(this.field, this.fieldView, this.fillStrategy, mn);
+            return tile.createActionStrategy(this.field, this.fieldView).action(this.fillStrategy, mn);
         }).catch(err => {
             console.error(err);
         }).finally(() => {

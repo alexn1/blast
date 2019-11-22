@@ -15,9 +15,9 @@ class BombTile extends Tile {
     */
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    createActionStrategy() {
+    createActionStrategy(field, fieldView) {
         //console.log("BombTile.createActionStrategy");
-        return new BombActionStrategy();
+        return new BombActionStrategy(field, fieldView);
     }
 
 }

@@ -12,84 +12,89 @@ const Field              = require("../../Field");
 class RegularActionStrategy extends ActionStrategy {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    constructor(field, fieldView) {
+        super(field, fieldView);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     findTiles(mn) {
         return this._findColorArea(mn);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    _findColorArea(field, mn) {
+    _findColorArea(mn) {
         //console.log("RegularActionStrategy.findColorArea", mn);
         const bag = new Bag();
         bag.put(mn);
-        this._checkNearby(field, mn, bag);
+        this._checkNearby(mn, bag);
         return bag.toArray();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    _checkNearby(field, mn, bag) {
+    _checkNearby(mn, bag) {
         //console.log("RegularActionStrategy.checkNearby", mn, JSON.stringify(bag));
         const RegularTile = require("../../Tile/RegularTile/RegularTile");
-        const tile = field.getTile(mn);
+        const tile = this.field.getTile(mn);
 
         const myColorIndex = tile.colorIndex;
         const topMN = Field.calcTop(mn);
         if (topMN) {
-            const topTile = field.getTile(topMN);
+            const topTile = this.field.getTile(topMN);
             if (topTile instanceof RegularTile && topTile.colorIndex === myColorIndex && !bag.contains(topMN)) {
                 bag.put(topMN);
-                this._checkNearby(field, topMN, bag);
+                this._checkNearby(topMN, bag);
             }
         }
         const rightMN = Field.calcRight(mn);
         if (rightMN) {
-            const rightTile = field.getTile(rightMN);
+            const rightTile = this.field.getTile(rightMN);
             if (rightTile instanceof RegularTile && rightTile.colorIndex === myColorIndex && !bag.contains(rightMN)) {
                 bag.put(rightMN);
-                this._checkNearby(field, rightMN, bag);
+                this._checkNearby(rightMN, bag);
             }
         }
         const bottomMN = Field.calcBottom(mn);
         if (bottomMN) {
-            const bottomTile = field.getTile(bottomMN);
+            const bottomTile = this.field.getTile(bottomMN);
             if (bottomTile instanceof RegularTile && bottomTile.colorIndex === myColorIndex && !bag.contains(bottomMN)) {
                 bag.put(bottomMN);
-                this._checkNearby(field, bottomMN, bag);
+                this._checkNearby(bottomMN, bag);
             }
         }
         const leftMN = Field.calcLeft(mn);
         if (leftMN) {
-            const leftTile = field.getTile(leftMN);
+            const leftTile = this.field.getTile(leftMN);
             if (leftTile instanceof RegularTile && leftTile.colorIndex === myColorIndex && !bag.contains(leftMN)) {
                 bag.put(leftMN);
-                this._checkNearby(field, leftMN, bag);
+                this._checkNearby(leftMN, bag);
             }
         }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    action(field, fieldView, fillStrategy, mn) {
+    action(fillStrategy, mn) {
         //console.log("RegularActionStrategy.action", field, fieldView, mn);
         return Promise.try(() => {
-            const colorMNs = this._findColorArea(field, mn);
+            const colorMNs = this._findColorArea(mn);
             //console.log("colorMNs:", colorMNs.length, colorMNs);
             if (colorMNs.length >= Const.K) {
                 cc.audioEngine.playEffect(res.soundBurn);
-                field.burnTiles(colorMNs);
-                return fieldView.fadeOutTiles(colorMNs).then(() => {
-                    const moves = new BottomMoveStrategy().findMoves(field);
+                this.field.burnTiles(colorMNs);
+                return this.fieldView.fadeOutTiles(colorMNs).then(() => {
+                    const moves = new BottomMoveStrategy().findMoves(this.field);
                     //console.log("moves:", moves);
-                    field.applyMoves(moves);
-                    return fieldView.makeMoves(moves).then(() => {
-                        const emptyMNs = field.getEmptyTilesMNs();
+                    this.field.applyMoves(moves);
+                    return this.fieldView.makeMoves(moves).then(() => {
+                        const emptyMNs = this.field.getEmptyTilesMNs();
                         //console.log("new tiles:", emptyMNs);
                         fillStrategy.refillField(emptyMNs, {useBomb: true});
                         fillStrategy.refillFieldView(emptyMNs);
-                        return fieldView.fadeInTiles(emptyMNs);
+                        return this.fieldView.fadeInTiles(emptyMNs);
                     });
                 });
             } else {
                 cc.audioEngine.playEffect(res.soundWrong);
-                return fieldView.flashTile(mn);
+                return this.fieldView.flashTile(mn);
             }
         });
     }

@@ -14,9 +14,9 @@ class RegularTile extends Tile {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    createActionStrategy() {
+    createActionStrategy(field, fieldView) {
         //console.log("RegularTile.createActionStrategy");
-        return new RegularActionStrategy();
+        return new RegularActionStrategy(field, fieldView);
     }
 
 }
