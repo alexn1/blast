@@ -1,13 +1,13 @@
 "use strict";
 
-const Promise         = require("bluebird");
-const Const           = require("./Const");
-const Helper          = require("./Helper");
-const res             = require("./res");
-const Field           = require("./Field");
-const FieldView       = require("./FieldView");
-const FieldController = require("./FieldController");
-const MoveToBottomStrategy = require("./MoveToBottomStrategy");
+const Promise            = require("bluebird");
+const Const              = require("./Const");
+const Helper             = require("./Helper");
+const res                = require("./res");
+const Field              = require("./Field");
+const FieldView          = require("./FieldView");
+const FieldController    = require("./FieldController");
+const BottomMoveStrategy = require("./BottomMoveStrategy");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const HomeScene = cc.Scene.extend({
@@ -39,7 +39,7 @@ const HomeScene = cc.Scene.extend({
         this.addChild(fieldViewNode);
 
         // fieldController
-        const fieldController = this.fieldController = new FieldController(field, fieldView, new MoveToBottomStrategy());
+        const fieldController = this.fieldController = new FieldController(field, fieldView, new BottomMoveStrategy());
         fieldController.startGame();
     }
 

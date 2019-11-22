@@ -4,11 +4,11 @@ const Const        = require("./Const");
 const MoveStrategy = require("./MoveStrategy");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-class MoveToBottomStrategy extends MoveStrategy {
+class BottomMoveStrategy extends MoveStrategy {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     findMoves(field) {
-        console.log("MoveToBottomStrategy.findMoves");
+        console.log("BottomMoveStrategy.findMoves");
         const moves = [];
         for (let n = 0; n < Const.N; n++) {
             let column = new Array(Const.M);
@@ -37,4 +37,4 @@ class MoveToBottomStrategy extends MoveStrategy {
 
 }
 
-module.exports = MoveToBottomStrategy;
+module.exports = BottomMoveStrategy;
