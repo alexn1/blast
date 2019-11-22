@@ -5,10 +5,10 @@ const res     = require("./res");
 const Helper  = require("./Helper");
 const Bag     = require("./Bag");
 
-const MARGIN        =  15;
-const FADE_OUT_TIME = 0.3;
-const FLASH_TIME    = 0.2;
-const MOVE_TIME     = 0.2;
+const MARGIN     =  15;
+const FADE_TIME  = 0.3;
+const FLASH_TIME = 0.2;
+const MOVE_TIME  = 0.2;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class FieldView {
@@ -71,12 +71,7 @@ class FieldView {
         return [x, y];
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    fadeOutTiles(bag) {
-        const promises = [];
-        bag.iterate(mn => promises.push(this.fadeOutTile(mn)));
-        return Promise.all(promises);
-    }
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     flashTile([m, n]) {
@@ -89,18 +84,40 @@ class FieldView {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    fadeOutTiles(bag) {
+        const promises = [];
+        bag.iterate(mn => promises.push(this.fadeOutTile(mn)));
+        return Promise.all(promises);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     fadeOutTile([m,n]) {
         //console.log("FieldView.fadeOutTile", m, n);
         const tile = this.matrix[m][n];
         Helper.runActions(tile, [
-            cc.scaleTo(FADE_OUT_TIME, 0.6).easing(cc.easeCubicActionOut())
+            cc.scaleTo(FADE_TIME, 0.6).easing(cc.easeCubicActionOut())
         ]);
         return Helper.runActions(tile, [
-            cc.fadeOut(FADE_OUT_TIME).easing(cc.easeCubicActionOut())
+            cc.fadeOut(FADE_TIME).easing(cc.easeCubicActionOut())
         ]).then(() => {
             this.node.removeChild(tile);
             this.matrix[m][n] = null;
         });
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    fadeInTiles(tiles) {
+        const promises = [];
+        tiles.forEach(mn => promises.push(this.fadeInTile(mn)));
+        return Promise.all(promises);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    fadeInTile([m,n]) {
+        const tile = this.matrix[m][n];
+        return Helper.runActions(tile, [
+            cc.fadeTo(FADE_TIME, 255).easing(cc.easeCubicActionOut())
+        ]);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

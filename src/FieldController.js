@@ -62,8 +62,10 @@ class FieldController {
                             const colorIndex = this.field.matrix[m][n];
                             const color = Const.TILE_COLOR[colorIndex];
                             const tile = this.fieldView.createTile(m, n, color);
+                            tile.setOpacity(0);
                             Helper.onNodeClick(tile, this.onTileClick.bind(this));
                         });
+                        return this.fieldView.fadeInTiles(tiles);
                     });
                 });
             } else {
