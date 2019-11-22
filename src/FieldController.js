@@ -28,12 +28,19 @@ class FieldController {
             for (let n = 0; n < Const.N; n++) {
                 const colorIndex = this.field.matrix[m][n];
                 if (colorIndex !== null) {
-                    const color = Const.TILE_COLOR[colorIndex];
-                    const tile = this.fieldView.createTile(m, n, color);
-                    Helper.onNodeClick(tile, this.onTileClick.bind(this));
+                    this.createTile([m,n], colorIndex);
                 }
             }
         }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    createTile([m,n], colorIndex, opacity = 255) {
+        const color = Const.TILE_COLOR[colorIndex];
+        const tile = this.fieldView.createTile(m, n, color);
+        tile.setOpacity(opacity);
+        Helper.onNodeClick(tile, this.onTileClick.bind(this));
+        return tile;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -62,13 +69,7 @@ class FieldController {
                     return this.fieldView.makeMoves(moves).then(() => {
                         const tiles = this.field.fillNewTiles();
                         console.log("tiles:", tiles);
-                        tiles.forEach(([m, n]) => {
-                            const colorIndex = this.field.matrix[m][n];
-                            const color = Const.TILE_COLOR[colorIndex];
-                            const tile = this.fieldView.createTile(m, n, color);
-                            tile.setOpacity(0);
-                            Helper.onNodeClick(tile, this.onTileClick.bind(this));
-                        });
+                        tiles.forEach(([m, n]) => this.createTile([m,n], this.field.matrix[m][n], 0));
                         return this.fieldView.fadeInTiles(tiles);
                     });
                 });
