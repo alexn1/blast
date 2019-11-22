@@ -54,9 +54,10 @@ class FieldView {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    createBombTile([m, n]) {
+    createBombTile([m, n], opacity = 255) {
         const tile = new cc.Sprite(res.bomb);
         tile.setScale(this.tileScale);
+        tile.setOpacity(opacity);
         tile._tag = [m, n];
         this.placeTile(tile, [m, n]);
         this.node.addChild(this.matrix[m][n] = tile);

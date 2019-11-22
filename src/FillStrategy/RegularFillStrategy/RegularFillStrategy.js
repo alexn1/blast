@@ -60,7 +60,7 @@ class RegularFillStrategy extends FillStrategy {
             if (tile instanceof RegularTile) {
                 fieldView.createTile([m,n], tile.colorIndex, 0);
             } else if (tile instanceof BombTile) {
-                fieldView.createBombTile([m, n]);
+                fieldView.createBombTile([m, n], 0);
             }
         });
     }
