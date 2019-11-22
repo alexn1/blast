@@ -12,36 +12,41 @@ const MIN_BURN_TILES_TO_GET_BOMB = 4;
 class RegularFillStrategy extends FillStrategy {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    fillField(field) {
+    constructor(field, fieldView) {
+        super(field, fieldView);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    fillField() {
         for (let m = 0; m < Const.M; m++) {
             for (let n = 0; n < Const.N; n++) {
                 const colorIndex = Helper.randomInteger(0, Const.C - 1);
-                field.setTile([m, n], new RegularTile(colorIndex));
+                this.field.setTile([m, n], new RegularTile(colorIndex));
             }
         }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    fillFieldView(field, fieldView) {
+    fillFieldView() {
         for (let m = 0; m < Const.M; m++) {
             for (let n = 0; n < Const.N; n++) {
-                this._createTileView(field, fieldView, [m, n]);
+                this._createTileView([m, n]);
             }
         }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    _createTileView(field, fieldView, [m, n]) {
-        const tile = field.getTile([m, n]);
+    _createTileView([m, n]) {
+        const tile = this.field.getTile([m, n]);
         if (tile instanceof RegularTile) {
-            fieldView.createTile([m, n], tile.colorIndex);
+            this.fieldView.createTile([m, n], tile.colorIndex);
         } else if (tile instanceof BombTile) {
-            fieldView.createBombTile([m, n]);
+            this.fieldView.createBombTile([m, n]);
         }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    refillField(field, mns, options = {}) {
+    refillField(mns, options = {}) {
         let bombI = -1;
         if (options.useBomb && mns.length >= MIN_BURN_TILES_TO_GET_BOMB) {
             bombI = Helper.randomInteger(0, mns.length-1);
@@ -49,19 +54,18 @@ class RegularFillStrategy extends FillStrategy {
         for (let i = 0; i < mns.length; i++) {
             const [m, n] = mns[i];
             if (bombI === i) {
-                field.setTile([m, n], new BombTile());
+                this.field.setTile([m, n], new BombTile());
             } else {
                 const colorIndex = Helper.randomInteger(0, Const.C - 1);
-                field.setTile([m, n], new RegularTile(colorIndex));
+                this.field.setTile([m, n], new RegularTile(colorIndex));
             }
         }
-
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    refillFieldView(field, fieldView, emptyMNs) {
+    refillFieldView(emptyMNs) {
         emptyMNs.forEach(([m, n]) => {
-            this._createTileView(field, fieldView, [m, n]);
+            this._createTileView([m, n]);
         });
     }
 

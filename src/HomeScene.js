@@ -39,7 +39,7 @@ const HomeScene = cc.Scene.extend({
         this.addChild(fieldViewNode);
 
         // fieldController
-        const fieldController = this.fieldController = new FieldController(field, fieldView, new RegularFillStrategy());
+        const fieldController = this.fieldController = new FieldController(field, fieldView, new RegularFillStrategy(field, fieldView));
         fieldController.startGame();
     }
 

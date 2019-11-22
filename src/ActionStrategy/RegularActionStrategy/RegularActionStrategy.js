@@ -82,8 +82,8 @@ class RegularActionStrategy extends ActionStrategy {
                     return fieldView.makeMoves(moves).then(() => {
                         const emptyMNs = field.getEmptyTilesMNs();
                         //console.log("new tiles:", emptyMNs);
-                        fillStrategy.refillField(field, emptyMNs, {useBomb: true});
-                        fillStrategy.refillFieldView(field, fieldView, emptyMNs);
+                        fillStrategy.refillField(emptyMNs, {useBomb: true});
+                        fillStrategy.refillFieldView(emptyMNs);
                         return fieldView.fadeInTiles(emptyMNs);
                     });
                 });

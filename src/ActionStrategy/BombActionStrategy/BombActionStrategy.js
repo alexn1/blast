@@ -40,8 +40,8 @@ class BombActionStrategy extends ActionStrategy {
                 return fieldView.makeMoves(moves).then(() => {
                     const emptyMNs = field.getEmptyTilesMNs();
                     //console.log("new tiles:", emptyMNs);
-                    fillStrategy.refillField(field, emptyMNs);
-                    fillStrategy.refillFieldView(field, fieldView, emptyMNs);
+                    fillStrategy.refillField(emptyMNs);
+                    fillStrategy.refillFieldView(emptyMNs);
                     return fieldView.fadeInTiles(emptyMNs);
                 });
             });
