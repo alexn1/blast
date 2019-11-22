@@ -1,10 +1,10 @@
 "use strict";
 
-const Promise        = require("bluebird");
-const ActionStrategy = require("../ActionStrategy");
-const Field          = require("../../Field");
+const Promise            = require("bluebird");
+const ActionStrategy     = require("../ActionStrategy");
+const Field              = require("../../Field");
 const BottomMoveStrategy = require("../../MoveStrategy/BottomMoveStrategy/BottomMoveStrategy");
-const res = require("../../res");
+const res                = require("../../res");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class BombActionStrategy extends ActionStrategy {

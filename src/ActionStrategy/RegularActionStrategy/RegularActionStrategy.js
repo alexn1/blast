@@ -69,7 +69,6 @@ class RegularActionStrategy extends ActionStrategy {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     action(field, fieldView, fillStrategy, mn) {
         //console.log("RegularActionStrategy.action", field, fieldView, mn);
-        const RegularTile = require("../../Tile/RegularTile/RegularTile");
         return Promise.try(() => {
             const colorMNs = this._findColorArea(field, mn);
             //console.log("colorMNs:", colorMNs.length, colorMNs);

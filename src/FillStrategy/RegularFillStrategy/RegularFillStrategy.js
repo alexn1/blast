@@ -25,13 +25,18 @@ class RegularFillStrategy extends FillStrategy {
     fillFieldView(field, fieldView) {
         for (let m = 0; m < Const.M; m++) {
             for (let n = 0; n < Const.N; n++) {
-                const tile = field.getTile([m, n]);
-                if (tile instanceof RegularTile) {
-                    fieldView.createTile([m, n], tile.colorIndex);
-                } else if (tile instanceof BombTile) {
-                    fieldView.createBombTile([m, n]);
-                }
+                this._createTileView(field, fieldView, [m, n]);
             }
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    _createTileView(field, fieldView, [m, n]) {
+        const tile = field.getTile([m, n]);
+        if (tile instanceof RegularTile) {
+            fieldView.createTile([m, n], tile.colorIndex);
+        } else if (tile instanceof BombTile) {
+            fieldView.createBombTile([m, n]);
         }
     }
 
@@ -56,12 +61,7 @@ class RegularFillStrategy extends FillStrategy {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     refillFieldView(field, fieldView, emptyMNs) {
         emptyMNs.forEach(([m, n]) => {
-            const tile = field.getTile([m, n]);
-            if (tile instanceof RegularTile) {
-                fieldView.createTile([m,n], tile.colorIndex, 0);
-            } else if (tile instanceof BombTile) {
-                fieldView.createBombTile([m, n], 0);
-            }
+            this._createTileView(field, fieldView, [m, n]);
         });
     }
 
