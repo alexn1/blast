@@ -22,9 +22,9 @@ class RegularFillStrategy extends FillStrategy {
     fillFieldView(field, fieldView) {
         for (let m = 0; m < Const.M; m++) {
             for (let n = 0; n < Const.N; n++) {
-                const colorIndex = field.getColorIndex([m, n]);
-                if (colorIndex !== null) {
-                    fieldView.createTile([m, n], colorIndex);
+                const tile = field.getTile([m, n]);
+                if (tile && tile instanceof RegularTile) {
+                    fieldView.createTile([m, n], tile.colorIndex);
                 }
             }
         }

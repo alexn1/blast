@@ -136,7 +136,7 @@ class FieldView {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     makeMoves(moves) {
-        console.log("FieldView.makeMoves:", moves);
+        //console.log("FieldView.makeMoves:", moves);
         const promises = [];
         moves.forEach(move => promises.push(this.makeMove(move)));
         return Promise.all(promises);

@@ -8,7 +8,7 @@ class BottomMoveStrategy extends MoveStrategy {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     findMoves(field) {
-        console.log("BottomMoveStrategy.findMoves");
+        //console.log("BottomMoveStrategy.findMoves");
         const moves = [];
         for (let n = 0; n < Const.N; n++) {
             let column = new Array(Const.M);

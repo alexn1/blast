@@ -14,7 +14,7 @@ class RegularTile {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     createActionStrategy() {
-        console.log("RegularTile.createActionStrategy");
+        //console.log("RegularTile.createActionStrategy");
         return new RegularActionStrategy();
     }
 
