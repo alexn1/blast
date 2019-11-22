@@ -21,20 +21,8 @@ class FieldController {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     startGame() {
-        this.fillStrategy.fill(this.field);
-        this.fillView();
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    fillView() {
-        for (let m = 0; m < Const.M; m++) {
-            for (let n = 0; n < Const.N; n++) {
-                const colorIndex = this.field.getColorIndex([m, n]);
-                if (colorIndex !== null) {
-                    this.fieldView.createTile([m, n], colorIndex);
-                }
-            }
-        }
+        this.fillStrategy.fillField(this.field);
+        this.fillStrategy.fillFieldView(this.field, this.fieldView);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,7 +34,6 @@ class FieldController {
         }
         return Promise.try(() => {
             this.busy = true;
-
             const tile = this.field.getTile(mn);
             console.log("tile:", tile);
             return tile.createActionStrategy().action(this.field, this.fieldView, this.fillStrategy, mn);
