@@ -9,6 +9,10 @@ module.exports = {
     tile : "res/tile.png",
     field: "res/field.png",
 
+    // sound
+    soundBurn : 'res/sound/burn.mp3',
+    soundWrong: 'res/sound/wrong.mp3',
+
     // font
     AmericanCaptain  : {type: "font", name: "AmericanCaptain"  , srcs: ["res/fonts/AmericanCaptain.ttf"]},     // title
 };

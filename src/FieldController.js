@@ -3,6 +3,7 @@
 const Promise = require("bluebird");
 const Const   = require("./Const");
 const Helper  = require("./Helper");
+const res     = require("./res");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class FieldController {
@@ -50,6 +51,9 @@ class FieldController {
             const len = bag.getLength();
             //console.log("bag:", len, bag);
             if (len >= Const.K) {
+
+                console.log("soundBurn", res.soundBurn);
+                cc.audioEngine.playEffect(res.soundBurn);
                 this.field.burnTiles(bag);
                 return this.fieldView.fadeOutTiles(bag).then(() => {
                     const moves = this.moveStrategy.findMoves(this.field);
@@ -69,6 +73,7 @@ class FieldController {
                     });
                 });
             } else {
+                cc.audioEngine.playEffect(res.soundWrong);
                 return this.fieldView.flashTile(mn);
             }
         }).finally(() => {
