@@ -8,6 +8,7 @@ const Field               = require("./Field");
 const FieldView           = require("./FieldView");
 const FieldController     = require("./FieldController");
 const RegularFillStrategy = require("./FillStrategy/RegularFillStrategy/RegularFillStrategy");
+const Game                = require("./Game");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const HomeScene = cc.Scene.extend({
@@ -16,6 +17,8 @@ const HomeScene = cc.Scene.extend({
     field           : null,
     fieldView       : null,
     fieldController : null,
+    fillStrategy    : null,
+    game            : null,
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ctor(options) {
@@ -38,8 +41,14 @@ const HomeScene = cc.Scene.extend({
         fieldViewNode.setPosition(cc.winSize.width/2, cc.winSize.height/2);
         this.addChild(fieldViewNode);
 
+        // fillStrategy
+        const fillStrategy = this.fillStrategy = new RegularFillStrategy(field, fieldView);
+
+        // game
+        const game = this.game = new Game();
+
         // fieldController
-        const fieldController = this.fieldController = new FieldController(field, fieldView, new RegularFillStrategy(field, fieldView));
+        const fieldController = this.fieldController = new FieldController(field, fieldView, fillStrategy, game);
         fieldController.startGame();
     }
 

@@ -9,10 +9,11 @@ const res     = require("./res");
 class FieldController {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    constructor(field, fieldView, fillStrategy) {
+    constructor(field, fieldView, fillStrategy, game) {
         this.field        = field;
         this.fieldView    = fieldView;
         this.fillStrategy = fillStrategy;
+        this.game         = game;
         this.busy         = false;
 
         // events
@@ -37,7 +38,7 @@ class FieldController {
             const tile = this.field.getTile(mn);
             console.log("tile:", tile);
             return tile.createActionStrategy(this.field, this.fieldView).action(this.fillStrategy, mn).then(result => {
-                console.log("result:", result);
+                this.game.applyActionResult(result);
             });
         }).finally(() => {
             this.busy = false;
