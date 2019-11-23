@@ -32,12 +32,12 @@ class GameController {
 
         // game
         const game = this.game = new Game({
-            M: 7,
-            N: 9,
-            C: 5,
-            K: 2
+            M: 7,   // rows
+            N: 9,   // columns
+            C: 5,   // colors
+            K: 2    // match K
         });
-        const gameScene = this.gameScene = new GameScene();
+        const gameScene = this.gameScene = new GameScene({game});
         gameScene.init();
 
         // field

@@ -60,7 +60,7 @@ class RegularActionStrategy extends ActionStrategy {
             //console.log("colorMNs:", colorMNs.length, colorMNs);
             const result = {};
             result[tile.colorIndex] = colorMNs.length;
-            if (colorMNs.length >= Const.K) {
+            if (colorMNs.length >= this.field.game.options.K) {
                 cc.audioEngine.playEffect(res.soundBurn, false);
                 this.field.burnTiles(colorMNs);
                 return this.fieldView.fadeOutTiles(colorMNs).then(() => {

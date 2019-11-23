@@ -10,16 +10,17 @@ const SPACE = 72;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const GameScene = cc.Scene.extend({
 
-    _className: "GameScene",
+    _className     : "GameScene",
     scoreLabels    : null,
     counterLabel   : null,
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ctor(options) {
-        this.options = options = options || {};
+    ctor(options = {}) {
+        this.options = options;
         this._super();
-        this.scoreLabels = new Array(Const.C);
+        this.game = options.game;
+        this.scoreLabels = new Array(this.game.options.C);
     },
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -29,7 +30,7 @@ const GameScene = cc.Scene.extend({
         this.addChild(Helper.createBackground(Const.SCENE_BACKGROUND_COLOR));
 
         // score labels
-        for (let c = 0; c < Const.C; c++) {
+        for (let c = 0; c < this.game.options.C; c++) {
             const label = this.scoreLabels[c] = Helper.createLabelTTF(`${Const.COLOR_NAME[c]}: ${0}`, Helper.getFont(Const.TITLE_FONT_NAME));
             label.setAnchorPoint(0, 0.5);
             label.setPosition(5 + SPACE*c, 20);

@@ -56,7 +56,7 @@ class RegularFillStrategy extends FillStrategy {
             if (bombI === i) {
                 this.field.setTile([m, n], new BombTile());
             } else {
-                const colorIndex = Helper.randomInteger(0, Const.C - 1);
+                const colorIndex = Helper.randomInteger(0, this.field.game.options.C - 1);
                 this.field.setTile([m, n], new RegularTile(colorIndex));
             }
         }
