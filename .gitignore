@@ -3,3 +3,4 @@ node_modules
 npm-debug.log
 /public/main.js
 /public/res
+/test.js

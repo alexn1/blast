@@ -1,5 +1,6 @@
 "use strict";
 
+const Promise = require("bluebird");
 const Const   = require("./Const");
 const res     = require("./res");
 const Helper  = require("./Helper");
@@ -170,11 +171,14 @@ class FieldView {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     _onTileClick(touch, event) {
         console.log("FieldView.onTileClick");
-        if (this.onTileClick) {
-            const mn = event.getCurrentTarget()._tag;
-            this.onTileClick(mn);
-        }
-
+        return Promise.try(() => {
+            if (this.onTileClick) {
+                const mn = event.getCurrentTarget()._tag;
+                return this.onTileClick(mn);
+            }
+        }).catch(err => {
+            console.error(err);
+        });
     }
 
 

@@ -28,17 +28,17 @@ class FieldController {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     onTileClick(mn) {
         //console.log("FieldView.onTileClick", mn);
-        if (this.busy) {
-            console.warn("busy");
-            return;
-        }
         return Promise.try(() => {
+            if (this.busy) {
+                console.warn("busy");
+                return null;
+            }
             this.busy = true;
             const tile = this.field.getTile(mn);
             console.log("tile:", tile);
-            return tile.createActionStrategy(this.field, this.fieldView).action(this.fillStrategy, mn);
-        }).catch(err => {
-            console.error(err);
+            return tile.createActionStrategy(this.field, this.fieldView).action(this.fillStrategy, mn).then(result => {
+                console.log("result:", result);
+            });
         }).finally(() => {
             this.busy = false;
         });

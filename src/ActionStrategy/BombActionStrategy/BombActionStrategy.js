@@ -18,25 +18,21 @@ class BombActionStrategy extends ActionStrategy {
     action(fillStrategy, mn) {
         console.log("BombActionStrategy.action");
         return Promise.try(() => {
+            const result = {};
             const mns = [mn];
-            const topMN    = Field.calcTop(mn);
-            const rightMN  = Field.calcRight(mn);
-            const bottomMN = Field.calcBottom(mn);
-            const leftMN   = Field.calcLeft(mn);
-            if (topMN) {
-                mns.push(topMN);
+            for (let _mn of [
+                Field.calcTop(mn),
+                Field.calcRight(mn),
+                Field.calcBottom(mn),
+                Field.calcLeft(mn)
+            ]) {
+                if (_mn) {
+                    mns.push(_mn);
+                }
             }
-            if (rightMN) {
-                mns.push(rightMN);
-            }
-            if (bottomMN) {
-                mns.push(bottomMN);
-            }
-            if (leftMN) {
-                mns.push(leftMN);
-            }
+
             //console.log("mns:", mns);
-            cc.audioEngine.playEffect(res.soundBurn);
+            cc.audioEngine.playEffect(res.soundBurn, false);
             this.field.burnTiles(mns);
             return this.fieldView.fadeOutTiles(mns).then(() => {
                 const moves = new BottomMoveStrategy().findMoves(this.field);
