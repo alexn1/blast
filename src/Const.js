@@ -29,14 +29,14 @@ Const.TILE_COLOR = [
 
 Const.LEVEL_OPTIONS = {
     '1': {
-        M: 5,   // rows
-        N: 5,   // columns
+        M: 7,   // rows
+        N: 9,   // columns
         C: 5,   // colors
         K: 2    // match K
     },
     '2': {
-        M: 7,   // rows
-        N: 9,   // columns
+        M: 5,   // rows
+        N: 5,   // columns
         C: 5,   // colors
         K: 2    // match K
     },
