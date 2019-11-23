@@ -59,10 +59,7 @@ const HomeScene = cc.Scene.extend({
         };
         this.addChild(button3);
 
-
-
-
-    },
+    }
 
 
 
