@@ -63,10 +63,15 @@ class GameController {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     onAction(result) {
-        this.game.applyActionResult(result);
+        const isGameOver = this.game.applyActionResult(result);
         this.gameScene.setScore(this.game.score);
         this.gameScene.setCounter(this.game.counter);
         this.gameScene.setMission(this.game.mission);
+
+        if (isGameOver) {
+            console.warn("GAME OVER!");
+        }
+
     }
 }
 

@@ -57,9 +57,20 @@ const GameScene = cc.Scene.extend({
 
             const label = this.missionLabels[c] = Helper.createLabelTTF(`${Const.COLOR_NAME[c]}: ${this.game.mission[c]}`, Helper.getFont(Const.TITLE_FONT_NAME));
             label.setAnchorPoint(0, 0.5);
-            label.setPosition(5 + SPACE*c, cc.winSize.height - 100);
+            label.setPosition(5 + SPACE*c, cc.winSize.height - 130);
             this.addChild(label);
         }
+
+        // missionLabel
+        var missionLabel = Helper.createLabelTTF('mission', Helper.getFont(Const.TITLE_FONT_NAME), Const.SCENE_TITLE_FONT_SIZE);
+        missionLabel.setPosition(Helper.toLeftTop(cc.visibleRect, cc.visibleRect.center.x, 80));
+        this.addChild(missionLabel);
+
+
+        // missionLabel
+        var scoreLabel = Helper.createLabelTTF('score', Helper.getFont(Const.TITLE_FONT_NAME), Const.SCENE_TITLE_FONT_SIZE);
+        scoreLabel.setPosition(Helper.fromLeftBottom(cc.visibleRect, cc.visibleRect.center.x, 100));
+        this.addChild(scoreLabel);
 
 
 

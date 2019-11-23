@@ -23,6 +23,8 @@ class Game {
 
         // counter
         this.counter = 0;
+
+        this.over = false;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -31,7 +33,6 @@ class Game {
         this.counter++;
         for (let c in result) {
             this.score[c] += result[c];
-
             if (this.mission[c] !== undefined && this.mission[c] > 0) {
                 this.mission[c] -= result[c];
                 if (this.mission[c] < 0) {
@@ -40,6 +41,14 @@ class Game {
             }
         }
         console.log("game:", this);
+
+        let sum = 0;
+
+        for (let c of Object.keys(this.mission)) {
+            sum += this.mission[c];
+        }
+        console.log("sum:", sum);
+        return this.over = sum === 0;
     }
 
 }

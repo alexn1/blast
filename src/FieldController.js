@@ -32,6 +32,9 @@ class FieldController {
     onTileClick(mn) {
         //console.log("FieldView.onTileClick", mn);
         return Promise.try(() => {
+            if (this.field.game.over) {
+                return;
+            }
             if (this.busy) {
                 console.warn("busy");
                 return null;

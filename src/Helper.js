@@ -64,8 +64,10 @@ class Helper {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     static randomInteger(min, max) {
-        const rand = min + Math.random() * (max - min);
-        return Math.round(rand);
+        //let rand = min - 0.5 + Math.random() * (max - min + 1);
+        //return Math.round(rand);
+        let rand = min + Math.random() * (max + 1 - min);
+        return Math.floor(rand);
     };
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
