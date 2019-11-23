@@ -29,6 +29,13 @@ const GameScene = cc.Scene.extend({
         // background
         this.addChild(Helper.createBackground(Const.SCENE_BACKGROUND_COLOR));
 
+
+        // backButton
+        const backButton = Helper.createBackButton();
+        backButton.onClick = this.onBackPressed.bind(this);
+
+        this.addChild(backButton);
+
         // score labels
         for (let c = 0; c < this.game.options.C; c++) {
             const label = this.scoreLabels[c] = Helper.createLabelTTF(`${Const.COLOR_NAME[c]}: ${0}`, Helper.getFont(Const.TITLE_FONT_NAME));
@@ -44,6 +51,18 @@ const GameScene = cc.Scene.extend({
         this.addChild(counterLabel);
 
 
+    },
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    onBackPressed() {
+        console.log("onBackPressed");
+
+        const HomeController      = require("./HomeController");
+
+        // homeController
+        const homeController = new HomeController();
+        homeController.init();
+        homeController.run();
     },
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

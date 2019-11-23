@@ -1,6 +1,10 @@
 "use strict";
 
-const HomeScene = require("./HomeScene");
+const Const          = require("./Const");
+const HomeScene      = require("./HomeScene");
+const GameController = require("./GameController");
+
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class HomeController {
@@ -13,11 +17,22 @@ class HomeController {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     init() {
         this.homeScene.init();
+        this.homeScene.onStartLevel = this.onStartLevel.bind(this);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     run() {
         cc.director.runScene(this.homeScene);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    onStartLevel(level) {
+        console.log("HomeController.onStartLevel", level);
+
+        const gameController = new GameController(Const.LEVEL_OPTIONS[level]);
+        gameController.init();
+        gameController.run();
+
     }
 }
 

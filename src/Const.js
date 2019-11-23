@@ -9,6 +9,10 @@ class Const {}
 Const.SCALE_FACTOR  =   2;
 
 Const.SCENE_BACKGROUND_COLOR = cc.color(161, 161, 161);
+
+Const.SCENE_MARGIN_H         = 15;
+Const.SCENE_MARGIN_V         = 10;
+
 Const.TITLE_FONT_NAME        = "AmericanCaptain";
 Const.SCENE_TITLE_FONT_SIZE  = 30;
 
@@ -22,6 +26,28 @@ Const.TILE_COLOR = [
     cc.color.ORANGE,
     cc.color.MAGENTA
 ];
+
+Const.LEVEL_OPTIONS = {
+    '1': {
+        M: 5,   // rows
+        N: 5,   // columns
+        C: 5,   // colors
+        K: 2    // match K
+    },
+    '2': {
+        M: 7,   // rows
+        N: 9,   // columns
+        C: 5,   // colors
+        K: 2    // match K
+    },
+    '3': {
+        M: 10,   // rows
+        N: 10,   // columns
+        C: 5,   // colors
+        K: 2    // match K
+    }
+};
+
 
 Const.COLOR_NAME = ["red", "green", "blue", "orange", "magenta"];
 

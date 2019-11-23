@@ -9,6 +9,7 @@ const res                 = require("./res");
 const HomeScene = cc.Scene.extend({
 
     _className     : "HomeScene",
+    onStartLevel   : null,
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ctor(options = {}) {
@@ -31,16 +32,31 @@ const HomeScene = cc.Scene.extend({
         // button1
         const button1 = new Helper.createButton({title: 'level 1'});
         button1.setPosition(cc.winSize.width/2, cc.winSize.height/2 + 100);
+        button1.onClick = () => {
+            if (this.onStartLevel) {
+                this.onStartLevel(1);
+            }
+        };
         this.addChild(button1);
 
         // button2
         const button2 = new Helper.createButton({title: 'level 2'});
         button2.setPosition(cc.winSize.width/2, cc.winSize.height/2);
+        button2.onClick = () => {
+            if (this.onStartLevel) {
+                this.onStartLevel(2);
+            }
+        };
         this.addChild(button2);
 
         // button3
         const button3 = new Helper.createButton({title: 'level 3'});
         button3.setPosition(cc.winSize.width/2, cc.winSize.height/2 - 100);
+        button3.onClick = () => {
+            if (this.onStartLevel) {
+                this.onStartLevel(3);
+            }
+        };
         this.addChild(button3);
 
 

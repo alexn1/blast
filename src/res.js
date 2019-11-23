@@ -9,6 +9,7 @@ module.exports = {
     tile : "res/tile.png",
     field: "res/field.png",
     bomb : "res/bomb.png",
+    back : "res/back.png",
 
     // sound
     soundBurn : 'res/sound/burn.mp3',
