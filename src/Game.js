@@ -15,6 +15,12 @@ class Game {
             this.score[c] = 0;
         }
 
+        // mission
+        this.mission = {};
+        for (let c in options.mission) {
+            this.mission[c] = options.mission[c];
+        }
+
         // counter
         this.counter = 0;
     }
@@ -25,8 +31,15 @@ class Game {
         this.counter++;
         for (let c in result) {
             this.score[c] += result[c];
+
+            if (this.mission[c] !== undefined && this.mission[c] > 0) {
+                this.mission[c] -= result[c];
+                if (this.mission[c] < 0) {
+                    this.mission[c] = 0;
+                }
+            }
         }
-        console.log("score:", this.score);
+        console.log("game:", this);
     }
 
 }

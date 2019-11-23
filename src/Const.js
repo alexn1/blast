@@ -32,19 +32,34 @@ Const.LEVEL_OPTIONS = {
         M: 7,   // rows
         N: 9,   // columns
         C: 5,   // colors
-        K: 2    // match K
+        K: 2,   // match K
+        mission: {
+            '0': 10,
+            '1': 10,
+            '2': 10
+        }
     },
     '2': {
         M: 5,   // rows
         N: 5,   // columns
         C: 5,   // colors
-        K: 2    // match K
+        K: 2,   // match K
+        mission: {
+            '0': 10,
+            '1': 10,
+            '2': 10
+        }
     },
     '3': {
         M: 10,   // rows
         N: 10,   // columns
-        C: 5,   // colors
-        K: 2    // match K
+        C: 5,    // colors
+        K: 2,    // match K
+        mission: {
+            '0': 10,
+            '1': 10,
+            '2': 10
+        }
     }
 };
 

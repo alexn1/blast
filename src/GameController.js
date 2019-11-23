@@ -66,6 +66,7 @@ class GameController {
         this.game.applyActionResult(result);
         this.gameScene.setScore(this.game.score);
         this.gameScene.setCounter(this.game.counter);
+        this.gameScene.setMission(this.game.mission);
     }
 }
 

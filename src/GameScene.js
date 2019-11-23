@@ -13,6 +13,7 @@ const GameScene = cc.Scene.extend({
     _className     : "GameScene",
     scoreLabels    : null,
     counterLabel   : null,
+    missionLabels  : null,
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -21,6 +22,7 @@ const GameScene = cc.Scene.extend({
         this._super();
         this.game = options.game;
         this.scoreLabels = new Array(this.game.options.C);
+        this.missionLabels = new Array(Object.keys(this.game.mission).length);
     },
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,6 +52,16 @@ const GameScene = cc.Scene.extend({
         counterLabel.setPosition(5, 50);
         this.addChild(counterLabel);
 
+        //
+        for (let c = 0; c < Object.keys(this.game.mission).length; c++) {
+
+            const label = this.missionLabels[c] = Helper.createLabelTTF(`${Const.COLOR_NAME[c]}: ${this.game.mission[c]}`, Helper.getFont(Const.TITLE_FONT_NAME));
+            label.setAnchorPoint(0, 0.5);
+            label.setPosition(5 + SPACE*c, cc.winSize.height - 100);
+            this.addChild(label);
+        }
+
+
 
     },
 
@@ -75,6 +87,13 @@ const GameScene = cc.Scene.extend({
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     setCounter(counter) {
         this.counterLabel.setString(`counter: ${counter}`);
+    },
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    setMission(mission) {
+        for (let c in mission) {
+            this.missionLabels[c].setString(`${Const.COLOR_NAME[c]}: ${mission[c]}`);
+        }
     }
 
 });
