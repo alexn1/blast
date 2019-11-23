@@ -1,10 +1,10 @@
 "use strict";
 
-const Promise   = require("bluebird");
-const Const     = require("./Const");
-const Helper    = require("./Helper");
-const res       = require("./res");
-const GameScene = require("./GameScene");
+const Promise        = require("bluebird");
+const Const          = require("./Const");
+const Helper         = require("./Helper");
+const res            = require("./res");
+const GameController = require("./GameController");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class Application {
@@ -56,9 +56,9 @@ class Application {
         //console.log("Application.run");
         //console.log("window.location:", window.location);
         //console.log("cc.sys:", cc.sys);
-        const gameScene = new GameScene();
-        gameScene.init();
-        cc.director.runScene(gameScene);
+        const gameController = new GameController();
+        gameController.init();
+        gameController.startGame();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
