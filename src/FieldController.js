@@ -32,7 +32,7 @@ class FieldController {
     onTileClick(mn) {
         //console.log("FieldView.onTileClick", mn);
         return Promise.try(() => {
-            if (this.field.game.over) {
+            if (this.field.game.isOver()) {
                 return;
             }
             if (this.busy) {

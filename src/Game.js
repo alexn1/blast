@@ -23,14 +23,23 @@ class Game {
 
         // counter
         this.counter = 0;
+        this.moves = options.moves;
 
-        this.over = false;
+        this.result = null;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    isOver() {
+        return this.result !== null;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     applyActionResult(result) {
         //console.log("Game.applyActionResult:", result);
         this.counter++;
+        if (this.moves > 0) {
+            this.moves--;
+        }
         for (let c in result) {
             this.score[c] += result[c];
             if (this.mission[c] !== undefined && this.mission[c] > 0) {
@@ -40,15 +49,22 @@ class Game {
                 }
             }
         }
-        console.log("game:", this);
+        //console.log("game:", this);
 
+        // sum
         let sum = 0;
-
         for (let c of Object.keys(this.mission)) {
             sum += this.mission[c];
         }
-        console.log("sum:", sum);
-        return this.over = sum === 0;
+
+        // check result
+        if (sum === 0) {
+            this.result = "win";
+        } else if (this.moves === 0) {
+            this.result = "lose";
+        }
+
+        return this.result;
     }
 
 }
