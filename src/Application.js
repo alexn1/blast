@@ -4,7 +4,7 @@ const Promise   = require("bluebird");
 const Const     = require("./Const");
 const Helper    = require("./Helper");
 const res       = require("./res");
-const HomeScene = require("./HomeScene");
+const GameScene = require("./GameScene");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class Application {
@@ -56,9 +56,9 @@ class Application {
         //console.log("Application.run");
         //console.log("window.location:", window.location);
         //console.log("cc.sys:", cc.sys);
-        const homeScene = new HomeScene();
-        homeScene.init();
-        cc.director.runScene(homeScene);
+        const gameScene = new GameScene();
+        gameScene.init();
+        cc.director.runScene(gameScene);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

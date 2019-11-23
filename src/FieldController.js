@@ -9,19 +9,21 @@ const res     = require("./res");
 class FieldController {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    constructor(field, fieldView, fillStrategy, game) {
+    constructor(field, fieldView, fillStrategy) {
         this.field        = field;
         this.fieldView    = fieldView;
         this.fillStrategy = fillStrategy;
-        this.game         = game;
         this.busy         = false;
 
         // events
+        this.onAction = null;
+
+        // subscriptions
         this.fieldView.onTileClick = this.onTileClick.bind(this);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    startGame() {
+    fill() {
         this.fillStrategy.fillField();
         this.fillStrategy.fillFieldView();
     }
@@ -38,7 +40,9 @@ class FieldController {
             const tile = this.field.getTile(mn);
             console.log("tile:", tile);
             return tile.createActionStrategy(this.field, this.fieldView).action(this.fillStrategy, mn).then(result => {
-                this.game.applyActionResult(result);
+                if (this.onAction) {
+                    return this.onAction(result);
+                }
             });
         }).finally(() => {
             this.busy = false;

@@ -11,9 +11,9 @@ const RegularFillStrategy = require("./FillStrategy/RegularFillStrategy/RegularF
 const Game                = require("./Game");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const HomeScene = cc.Scene.extend({
+const GameScene = cc.Scene.extend({
 
-    _className      : "HomeScene",
+    _className      : "GameScene",
     field           : null,
     fieldView       : null,
     fieldController : null,
@@ -48,10 +48,27 @@ const HomeScene = cc.Scene.extend({
         const game = this.game = new Game();
 
         // fieldController
-        const fieldController = this.fieldController = new FieldController(field, fieldView, fillStrategy, game);
-        fieldController.startGame();
+        const fieldController = this.fieldController = new FieldController(field, fieldView, fillStrategy);
+        this.fieldController.onAction = this.onAction.bind(this);
+        fieldController.fill();
+
+        // title
+        var title = Helper.createLabelTTF('Test', Helper.getFont(Const.TITLE_FONT_NAME), Const.SCENE_TITLE_FONT_SIZE);
+        title.setPosition(Helper.toLeftTop(cc.visibleRect, cc.visibleRect.center.x, 30));
+        this.addChild(title);
+
+    },
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    startGame() {
+
+    },
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    onAction(result) {
+        this.game.applyActionResult(result);
     }
 
 });
 
-module.exports = HomeScene;
+module.exports = GameScene;
