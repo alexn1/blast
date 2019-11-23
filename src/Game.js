@@ -9,11 +9,17 @@ class Game {
     constructor(options = {}) {
         this.options = options;
 
+        // counter
+        this.counter = 0;
+
         // score by color
         this.score = {};
         for (let c = 0; c < this.options.C; c++) {
             this.score[c] = 0;
         }
+
+        // moves
+        this.moves = options.moves;
 
         // mission
         this.mission = {};
@@ -21,10 +27,7 @@ class Game {
             this.mission[c] = options.mission[c];
         }
 
-        // counter
-        this.counter = 0;
-        this.moves = options.moves;
-
+        // result
         this.result = null;
     }
 
@@ -36,12 +39,15 @@ class Game {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     applyActionResult(result) {
         //console.log("Game.applyActionResult:", result);
+        this.moves--;
         this.counter++;
-        if (this.moves > 0) {
-            this.moves--;
-        }
+
         for (let c in result) {
+
+            // score
             this.score[c] += result[c];
+
+            // mission
             if (this.mission[c] !== undefined && this.mission[c] > 0) {
                 this.mission[c] -= result[c];
                 if (this.mission[c] < 0) {
@@ -50,7 +56,12 @@ class Game {
             }
         }
         //console.log("game:", this);
+        this.checkResult();
+        return this.result;
+    }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    checkResult() {
         // sum
         let sum = 0;
         for (let c of Object.keys(this.mission)) {
@@ -63,8 +74,6 @@ class Game {
         } else if (this.moves === 0) {
             this.result = "lose";
         }
-
-        return this.result;
     }
 
 }
