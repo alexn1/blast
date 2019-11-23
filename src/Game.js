@@ -14,11 +14,15 @@ class Game {
         for (let c = 0; c < Const.C; c++) {
             this.score[c] = 0;
         }
+
+        // counter
+        this.counter = 0;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     applyActionResult(result) {
         console.log("Game.applyActionResult:", result);
+        this.counter++;
         for (let c in result) {
             this.score[c] += result[c];
         }

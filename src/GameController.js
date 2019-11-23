@@ -62,7 +62,8 @@ class GameController {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     onAction(result) {
         this.game.applyActionResult(result);
-        this.gameScene.showScore(this.game.score);
+        this.gameScene.setScore(this.game.score);
+        this.gameScene.setCounter(this.game.counter);
     }
 }
 
