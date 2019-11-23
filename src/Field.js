@@ -7,8 +7,9 @@ const Helper = require("./Helper");
 class Field {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    constructor() {
-        this.matrix = Helper.createMatrix(Const.M, Const.N);
+    constructor(game) {
+        this.game   = game;
+        this.matrix = Helper.createMatrix(game.options.M, game.options.N);
         //console.log("matrix:", this.matrix);
     }
 
@@ -33,25 +34,25 @@ class Field {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    static calcTop([m, n]) {
+    calcTop([m, n]) {
         const _m = m - 1;
         return _m >= 0 ? [_m, n] : null;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    static calcRight([m, n]) {
+    calcRight([m, n]) {
         const _n = n + 1;
-        return _n < Const.N ? [m, _n] : null;
+        return _n < this.game.options.N ? [m, _n] : null;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    static calcBottom([m, n]) {
+    calcBottom([m, n]) {
         const _m = m + 1;
-        return _m < Const.M ? [_m, n] : null;
+        return _m < this.game.options.M ? [_m, n] : null;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    static calcLeft([m, n]) {
+    calcLeft([m, n]) {
         const _n = n - 1;
         return _n >= 0 ? [m, _n] : null;
     }
@@ -74,8 +75,8 @@ class Field {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     getEmptyTilesMNs() {
         const mns = [];
-        for (let m = 0; m < Const.M; m++) {
-            for (let n = 0; n < Const.N; n++) {
+        for (let m = 0; m < this.game.options.M; m++) {
+            for (let n = 0; n < this.game.options.N; n++) {
                 if (!this.isTileExists([m,n])) {
                     mns.push([m,n]);
                 }

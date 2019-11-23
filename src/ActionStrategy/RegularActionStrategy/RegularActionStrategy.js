@@ -37,10 +37,10 @@ class RegularActionStrategy extends ActionStrategy {
         const tile = this.field.getTile(mn);
         const myColorIndex = tile.colorIndex;
         for (let _mn of [
-            Field.calcTop(mn),
-            Field.calcRight(mn),
-            Field.calcBottom(mn),
-            Field.calcLeft(mn)
+            this.field.calcTop(mn),
+            this.field.calcRight(mn),
+            this.field.calcBottom(mn),
+            this.field.calcLeft(mn)
         ]) {
             if (_mn === null) continue;
             const _tile = this.field.getTile(_mn);
@@ -80,7 +80,7 @@ class RegularActionStrategy extends ActionStrategy {
             } else {
                 cc.audioEngine.playEffect(res.soundWrong, false);
                 return this.fieldView.flashTile(mn).then(() => {
-                    return result;
+                    return null;
                 });
             }
         });

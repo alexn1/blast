@@ -40,7 +40,7 @@ class FieldController {
             const tile = this.field.getTile(mn);
             console.log("tile:", tile);
             return tile.createActionStrategy(this.field, this.fieldView).action(this.fillStrategy, mn).then(result => {
-                if (this.onAction) {
+                if (this.onAction && result) {
                     return this.onAction(result);
                 }
             });

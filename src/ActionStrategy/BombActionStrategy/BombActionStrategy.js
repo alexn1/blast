@@ -22,10 +22,10 @@ class BombActionStrategy extends ActionStrategy {
             const result = {};
             const mns = [mn];
             for (let _mn of [
-                Field.calcTop(mn),
-                Field.calcRight(mn),
-                Field.calcBottom(mn),
-                Field.calcLeft(mn)
+                this.field.calcTop(mn),
+                this.field.calcRight(mn),
+                this.field.calcBottom(mn),
+                this.field.calcLeft(mn)
             ]) {
                 if (_mn === null) continue;
                 mns.push(_mn);

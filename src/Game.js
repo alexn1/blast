@@ -11,7 +11,7 @@ class Game {
 
         // score by color
         this.score = {};
-        for (let c = 0; c < Const.C; c++) {
+        for (let c = 0; c < this.options.C; c++) {
             this.score[c] = 0;
         }
 

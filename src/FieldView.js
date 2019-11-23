@@ -14,10 +14,17 @@ const MOVE_TIME  = 0.2;
 class FieldView {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    constructor() {
+    constructor(field) {
+        this.field  = field;
         this.node   = null;
-        this.matrix = Helper.createMatrix(Const.M, Const.N);
         this.onTileClick = null;
+
+        this.M = field.game.options.M;
+        this.N = field.game.options.N;
+
+        // matrix
+        this.matrix = Helper.createMatrix(this.M, Const.N);
+
 
         // calc
         const fieldWidth       = this.fieldWidth       = cc.winSize.width;
@@ -25,7 +32,7 @@ class FieldView {
         const tilePlaceWidth   = this.tilePlaceWidth   = fieldPlaceWidth / Const.N;
         const tilePlaceScale   = this.tilePlaceScale   = tilePlaceWidth / Const.TILE_ACTUAL_WIDTH;
         const tilePlaceHeight  = this.tilePlaceHeight  = Const.TILE_ACTUAL_HEIGHT * tilePlaceScale;
-        const fieldHeight      = this.fieldHeight      = tilePlaceHeight * Const.M + MARGIN*2;
+        const fieldHeight      = this.fieldHeight      = tilePlaceHeight * this.M + MARGIN*2;
         const fieldPlaceHeight = this.fieldPlaceHeight = fieldHeight - MARGIN*2;
         const tileScale        = this.tileScale        = tilePlaceScale * 0.95;
 
@@ -74,14 +81,14 @@ class FieldView {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     calcTilePosition([m, n]) {
-        if (m >= Const.M) {
-            throw new Error(`m out of range: ${m} of ${Const.M}`);
+        if (m >= this.M) {
+            throw new Error(`m out of range: ${m} of ${this.M}`);
         }
         if (n >= Const.N) {
             throw new Error(`n out of range: ${n} of ${Const.N}`);
         }
-        const _m = Const.M - m  - 1;
-        const _n =           n;
+        const _m = this.M - m  - 1;
+        const _n =          n;
         const x = _n * this.tilePlaceWidth  + this.tilePlaceWidth /2 + MARGIN;
         const y = _m * this.tilePlaceHeight + this.tilePlaceHeight/2 + MARGIN;
         return [x, y];

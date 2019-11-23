@@ -1,11 +1,11 @@
 "use strict";
 
-const GameScene = require("./GameScene");
+const Game                = require("./Game");
+const GameScene           = require("./GameScene");
 const Field               = require("./Field");
 const FieldView           = require("./FieldView");
 const FieldController     = require("./FieldController");
 const RegularFillStrategy = require("./FillStrategy/RegularFillStrategy/RegularFillStrategy");
-const Game                = require("./Game");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class GameController {
@@ -31,15 +31,20 @@ class GameController {
     init() {
 
         // game
-        const game = this.game = new Game();
+        const game = this.game = new Game({
+            M: 7,
+            N: 9,
+            C: 5,
+            K: 2
+        });
         const gameScene = this.gameScene = new GameScene();
         gameScene.init();
 
         // field
-        const field = this.field = new Field();
+        const field = this.field = new Field(game);
 
         // fieldView
-        const fieldView = this.fieldView = new FieldView();
+        const fieldView = this.fieldView = new FieldView(field);
         const fieldViewNode = fieldView.createNode();
         fieldViewNode.setPosition(cc.winSize.width/2, cc.winSize.height/2);
         this.gameScene.addChild(fieldViewNode);

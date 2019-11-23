@@ -18,9 +18,9 @@ class RegularFillStrategy extends FillStrategy {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     fillField() {
-        for (let m = 0; m < Const.M; m++) {
-            for (let n = 0; n < Const.N; n++) {
-                const colorIndex = Helper.randomInteger(0, Const.C - 1);
+        for (let m = 0; m < this.field.game.options.M; m++) {
+            for (let n = 0; n < this.field.game.options.N; n++) {
+                const colorIndex = Helper.randomInteger(0, this.field.game.options.C - 1);
                 this.field.setTile([m, n], new RegularTile(colorIndex));
             }
         }
@@ -28,8 +28,8 @@ class RegularFillStrategy extends FillStrategy {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     fillFieldView() {
-        for (let m = 0; m < Const.M; m++) {
-            for (let n = 0; n < Const.N; n++) {
+        for (let m = 0; m < this.field.game.options.M; m++) {
+            for (let n = 0; n < this.field.game.options.N; n++) {
                 this._createTileView([m, n]);
             }
         }
