@@ -21,7 +21,7 @@ class Game {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     applyActionResult(result) {
-        console.log("Game.applyActionResult:", result);
+        //console.log("Game.applyActionResult:", result);
         this.counter++;
         for (let c in result) {
             this.score[c] += result[c];
