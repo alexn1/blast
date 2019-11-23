@@ -11,7 +11,9 @@ const RegularFillStrategy = require("./FillStrategy/RegularFillStrategy/RegularF
 class GameController {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    constructor() {
+    constructor(gameOptions) {
+
+        this.gameOptions = gameOptions;
 
         // game
         this.game            = null;        // model
@@ -31,12 +33,7 @@ class GameController {
     init() {
 
         // game
-        const game = this.game = new Game({
-            M: 7,   // rows
-            N: 9,   // columns
-            C: 5,   // colors
-            K: 2    // match K
-        });
+        const game = this.game = new Game(this.gameOptions);
         const gameScene = this.gameScene = new GameScene({game});
         gameScene.init();
 
@@ -60,7 +57,7 @@ class GameController {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    startGame() {
+    run() {
         cc.director.runScene(this.gameScene);
     }
 

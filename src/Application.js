@@ -4,7 +4,8 @@ const Promise        = require("bluebird");
 const Const          = require("./Const");
 const Helper         = require("./Helper");
 const res            = require("./res");
-const GameController = require("./GameController");
+//const GameController = require("./GameController");
+const HomeController = require("./HomeController");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class Application {
@@ -56,9 +57,23 @@ class Application {
         //console.log("Application.run");
         //console.log("window.location:", window.location);
         //console.log("cc.sys:", cc.sys);
-        const gameController = new GameController();
+
+
+        /*
+        const gameController = new GameController({
+            M: 7,   // rows
+            N: 9,   // columns
+            C: 5,   // colors
+            K: 2    // match K
+        });
         gameController.init();
-        gameController.startGame();
+        gameController.run();
+        */
+
+        // homeController
+        const homeController = new HomeController();
+        homeController.init();
+        homeController.run();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

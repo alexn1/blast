@@ -131,7 +131,60 @@ class Helper {
             actions.push(cc.callFunc(resolve));
             node.runAction(cc.sequence(actions));
         });
-    };
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    static createButton(options) {
+        options = options || {};
+        var Scale9SpriteButton = require('./Scale9SpriteButton');
+        var text = 'Button';
+        if (typeof options.text === 'string') {
+            text = options.text;
+        } else if (typeof options.title === 'string') {
+            text = options.title;
+        }
+
+        if (!options.file && !options.color) {
+            options.color = Const.BUTTON_COLOR;
+        }
+        if (!options.fontColor) {
+            options.fontColor = Const.BUTTON_TEXT_COLOR;
+        }
+
+        return new Scale9SpriteButton({
+            normalFile: options.file     || res.colorWhite,
+            color     : options.color,
+            width     : options.width    || Const.BUTTON_WIDTH,
+            height    : options.height   || Const.BUTTON_HEIGHT,
+            text      : text,
+            fontName  : options.fontName || Const.TITLE_FONT_NAME,
+            fontSize  : options.fontSize || Const.BUTTON_FONT_SIZE,
+            fontColor : options.fontColor,
+            hitArea   : options.hitArea,
+            visible   : options.visible,
+            offsetY   : options.offsetY || -3
+        });
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    static addTouchListener(options) {
+        cc.eventManager.addListener({
+            event         : cc.EventListener.TOUCH_ONE_BY_ONE,
+            swallowTouches: options.swallow !== undefined ? options.swallow : false,
+            onTouchBegan  : options.onTouchBegan,
+            onTouchMoved  : options.onTouchMoved,
+            onTouchEnded  : options.onTouchEnded
+        }, options.target);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    static setScale9SpriteFile(scale9Sprite, file) {
+        var width  = scale9Sprite.width;
+        var height = scale9Sprite.height;
+        scale9Sprite.initWithFile(file, cc.rect(0, 0, 0, 0), cc.rect(0, 0, 0, 0));
+        scale9Sprite.width  = width;
+        scale9Sprite.height = height;
+    }
 
 }
 

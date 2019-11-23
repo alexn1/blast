@@ -37,7 +37,7 @@ const GameScene = cc.Scene.extend({
             this.addChild(label);
         }
 
-        counterLabel
+        // counterLabel
         const counterLabel = this.counterLabel = Helper.createLabelTTF("counter: 0", Helper.getFont(Const.TITLE_FONT_NAME));
         counterLabel.setAnchorPoint(0, 0.5);
         counterLabel.setPosition(5, 50);

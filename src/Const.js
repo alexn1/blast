@@ -25,5 +25,15 @@ Const.TILE_COLOR = [
 
 Const.COLOR_NAME = ["red", "green", "blue", "orange", "magenta"];
 
+// button
+Const.BUTTON_FONT_SIZE = 22;
+Const.BUTTON_TEXT_COLOR = cc.color("#80704F");
+Const.BUTTON_TEXT_DISABLE_COLOR = cc.color("#bfa979");
+Const.BUTTON_WIDTH  = 100;
+Const.BUTTON_HEIGHT = 40;
+Const.BUTTON_SIZE   = {width: 200, height: 50};
+Const.BUTTON_INTERVAL = 20;
+Const.BUTTON_COLOR    = cc.color('#ECD592');
+
 
 module.exports = Const;
