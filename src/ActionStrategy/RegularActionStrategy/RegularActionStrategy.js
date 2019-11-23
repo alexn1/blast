@@ -36,19 +36,17 @@ class RegularActionStrategy extends ActionStrategy {
         const RegularTile = require("../../Tile/RegularTile/RegularTile");
         const tile = this.field.getTile(mn);
         const myColorIndex = tile.colorIndex;
-
         for (let _mn of [
             Field.calcTop(mn),
             Field.calcRight(mn),
             Field.calcBottom(mn),
             Field.calcLeft(mn)
         ]) {
-            if (_mn) {
-                const _tile = this.field.getTile(_mn);
-                if (_tile instanceof RegularTile && _tile.colorIndex === myColorIndex && !bag.contains(_mn)) {
-                    bag.put(_mn);
-                    this._checkNearby(_mn, bag);
-                }
+            if (_mn === null) continue;
+            const _tile = this.field.getTile(_mn);
+            if (_tile instanceof RegularTile && _tile.colorIndex === myColorIndex && !bag.contains(_mn)) {
+                bag.put(_mn);
+                this._checkNearby(_mn, bag);
             }
         }
     }

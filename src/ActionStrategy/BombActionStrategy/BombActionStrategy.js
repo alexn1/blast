@@ -5,6 +5,7 @@ const ActionStrategy     = require("../ActionStrategy");
 const Field              = require("../../Field");
 const BottomMoveStrategy = require("../../MoveStrategy/BottomMoveStrategy/BottomMoveStrategy");
 const res                = require("../../res");
+const RegularTile        = require("../../Tile/RegularTile/RegularTile");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class BombActionStrategy extends ActionStrategy {
@@ -26,8 +27,14 @@ class BombActionStrategy extends ActionStrategy {
                 Field.calcBottom(mn),
                 Field.calcLeft(mn)
             ]) {
-                if (_mn) {
-                    mns.push(_mn);
+                if (_mn === null) continue;
+                mns.push(_mn);
+                const _tile = this.field.getTile(_mn);
+                if (_tile instanceof RegularTile) {
+                    if (result[_tile.colorIndex] === undefined) {
+                        result[_tile.colorIndex] = 0;
+                    }
+                    result[_tile.colorIndex]++;
                 }
             }
 
@@ -45,6 +52,8 @@ class BombActionStrategy extends ActionStrategy {
                     fillStrategy.refillFieldView(emptyMNs);
                     return this.fieldView.fadeInTiles(emptyMNs);
                 });
+            }).then(() => {
+                return result;
             });
         });
     }
