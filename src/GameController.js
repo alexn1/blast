@@ -1,6 +1,6 @@
 "use strict";
 
-const Game                = require("./Game");
+const Game                = require("./Game/Game");
 const GameScene           = require("./GameScene");
 const Field               = require("./Field");
 const FieldView           = require("./FieldView");
@@ -68,10 +68,9 @@ class GameController {
         this.gameScene.setCounter(this.game.counter);
         this.gameScene.setMission(this.game.mission);
         this.gameScene.setMoves(this.game.moves);
-        if (gameResult === "win") {
-            this.gameScene.setGameOverMessage("you win", "win");
-        } else if (gameResult === "lose") {
-            this.gameScene.setGameOverMessage("you lose", "lose");
+        if (gameResult) {
+            const message = gameResult === "win" ? "you win" : "you lose";
+            this.gameScene.setGameOverMessage(message, gameResult);
         }
     }
 }

@@ -1,6 +1,6 @@
 "use strict";
 
-const Const = require("./Const");
+const Const = require("../Const");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class Game {
@@ -8,6 +8,9 @@ class Game {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     constructor(options = {}) {
         this.options = options;
+
+        // result
+        this.result = null;
 
         // counter
         this.counter = 0;
@@ -27,8 +30,7 @@ class Game {
             this.mission[c] = options.mission[c];
         }
 
-        // result
-        this.result = null;
+
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,8 +58,7 @@ class Game {
             }
         }
         //console.log("game:", this);
-        this.checkResult();
-        return this.result;
+        return this.checkResult();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -74,6 +75,7 @@ class Game {
         } else if (this.moves === 0) {
             this.result = "lose";
         }
+        return this.result;
     }
 
 }

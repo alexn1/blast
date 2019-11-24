@@ -24,8 +24,8 @@ const GameScene = cc.Scene.extend({
     ctor(options = {}) {
         this.options = options;
         this._super();
-        this.game = options.game;
-        this.scoreLabels = new Array(this.game.options.C);
+        this.game          = options.game;
+        this.scoreLabels   = new Array(this.game.options.C);
         this.missionLabels = new Array(Object.keys(this.game.mission).length);
     },
 
