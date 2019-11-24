@@ -63,14 +63,14 @@ class GameController {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     onAction(result) {
-        const gameResult = this.game.applyActionResult(result);
+        const status = this.game.applyActionResult(result);
         this.gameScene.setScore(this.game.score);
         this.gameScene.setCounter(this.game.counter);
         this.gameScene.setMission(this.game.mission);
         this.gameScene.setMoves(this.game.moves);
-        if (gameResult) {
-            const message = gameResult === "win" ? "you win" : "you lose";
-            this.gameScene.setGameOverMessage(message, gameResult);
+        if (status) {
+            const message = status === "win" ? "you win" : "you lose";
+            this.gameScene.setGameOverMessage(message, status);
         }
     }
 }

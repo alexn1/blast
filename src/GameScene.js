@@ -130,7 +130,7 @@ const GameScene = cc.Scene.extend({
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    setGameOverMessage(message, result) {
+    setGameOverMessage(message, status) {
         console.log("GameScene.setGameOverMessage", message);
         var gameOverLabel = Helper.createLabelTTF(message.toUpperCase(), Helper.getFont(Const.TITLE_FONT_NAME), 50);
         gameOverLabel.setPosition(cc.winSize.width/2, cc.winSize.height/2);
@@ -139,9 +139,9 @@ const GameScene = cc.Scene.extend({
 
         // color
         var color = GAME_OVER_MESSAGE_COLOR_DRAW;
-        if (result === "win") {
+        if (status === "win") {
             color = GAME_OVER_MESSAGE_COLOR_WIN;
-        } else if (result === "lose") {
+        } else if (status === "lose") {
             color = GAME_OVER_MESSAGE_COLOR_LOSE;
         }
         var gameOverMessageLayer = new cc.LayerColor(color, box.width + 10, box.height + 10);

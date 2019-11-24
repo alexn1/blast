@@ -32,14 +32,14 @@ class RegularGame extends Game {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     isOver() {
-        return this.result !== null;
+        return this.status !== null;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     applyActionResult(result) {
         //console.log("Game.applyActionResult:", result);
-        this.moves--;
         this.counter++;
+        this.moves--;
 
         for (let c in result) {
 
@@ -55,24 +55,24 @@ class RegularGame extends Game {
             }
         }
         //console.log("game:", this);
-        return this.checkResult();
+        return this.checkStatus();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    checkResult() {
+    checkStatus() {
         // sum
         let sum = 0;
         for (let c of Object.keys(this.mission)) {
             sum += this.mission[c];
         }
 
-        // check result
+        // check status
         if (sum === 0) {
-            this.result = "win";
+            this.status = "win";
         } else if (this.moves === 0) {
-            this.result = "lose";
+            this.status = "lose";
         }
-        return this.result;
+        return this.status;
     }
 
 
