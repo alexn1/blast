@@ -1,6 +1,6 @@
 "use strict";
 
-const Game                = require("./Game/Game");
+const RegularGame         = require("./Game/RegularGame/RegularGame");
 const GameScene           = require("./GameScene");
 const Field               = require("./Field");
 const FieldView           = require("./FieldView");
@@ -33,7 +33,7 @@ class GameController {
     init() {
 
         // game
-        const game = this.game = new Game(this.gameOptions);
+        const game = this.game = new RegularGame(this.gameOptions);
         const gameScene = this.gameScene = new GameScene({game});
         gameScene.init();
 
