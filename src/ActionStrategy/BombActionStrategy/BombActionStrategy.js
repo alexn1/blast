@@ -6,6 +6,7 @@ const Field              = require("../../Field");
 const BottomMoveStrategy = require("../../MoveStrategy/BottomMoveStrategy/BottomMoveStrategy");
 const res                = require("../../res");
 const RegularTile        = require("../../Tile/RegularTile/RegularTile");
+const Bag                = require("../../Bag");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class BombActionStrategy extends ActionStrategy {
@@ -19,8 +20,12 @@ class BombActionStrategy extends ActionStrategy {
     action(fillStrategy, mn) {
         console.log("BombActionStrategy.action");
         return Promise.try(() => {
+
+            const mns = this.findTiles(mn);
+
             const result = {};
-            const mns = [mn];
+
+/*            const mns = [mn];
             for (let _mn of [
                 this.field.calcTop(mn),
                 this.field.calcRight(mn),
@@ -36,7 +41,7 @@ class BombActionStrategy extends ActionStrategy {
                     }
                     result[_tile.colorIndex]++;
                 }
-            }
+            }*/
 
             //console.log("mns:", mns);
             cc.audioEngine.playEffect(res.soundBurn, false);
@@ -45,13 +50,13 @@ class BombActionStrategy extends ActionStrategy {
                 const moves = new BottomMoveStrategy().findMoves(this.field);
                 //console.log("moves:", moves);
                 this.field.applyMoves(moves);
-                return this.fieldView.makeMoves(moves).then(() => {
-                    const emptyMNs = this.field.getEmptyTilesMNs();
-                    //console.log("new tiles:", emptyMNs);
-                    fillStrategy.refillField(emptyMNs);
-                    fillStrategy.refillFieldView(emptyMNs);
-                    return this.fieldView.fadeInTiles(emptyMNs);
-                });
+                return this.fieldView.makeMoves(moves);
+            }).then(() => {
+                const emptyMNs = this.field.getEmptyTilesMNs();
+                //console.log("new tiles:", emptyMNs);
+                fillStrategy.refillField(emptyMNs);
+                fillStrategy.refillFieldView(emptyMNs);
+                return this.fieldView.fadeInTiles(emptyMNs);
             }).then(() => {
                 return result;
             });

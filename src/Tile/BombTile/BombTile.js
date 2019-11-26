@@ -15,7 +15,23 @@ class BombTile extends Tile {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     findBurnTiles(field, mn, bag) {
-
+        for (let _mn of [
+            field.calcTop(mn),
+            field.calcRight(mn),
+            field.calcBottom(mn),
+            field.calcLeft(mn)
+        ]) {
+            if (_mn === null) continue;
+            const _tile = field.getTile(_mn);
+            if (_tile.constructor.name === "BombTile") {
+                if (!bag.contains(_mn)) {
+                    bag.put(_mn);
+                    _tile.findBurnTiles(field, _mn, bag);
+                }
+            } else {
+                bag.put(_mn);
+            }
+        }
     }
 
 }
