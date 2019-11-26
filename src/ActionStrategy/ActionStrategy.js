@@ -17,7 +17,22 @@ class ActionStrategy {
         bag.put(mn);
         const tile = this.field.getTile(mn);
         tile.findBurnTiles(this.field, mn, bag);
-        return bag.toArray();
+        return bag;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    calcResult(bag) {
+        const result = {};
+        bag.iterate(mn => {
+            const tile = this.field.getTile(mn);
+            if (tile.constructor.name === "RegularTile") {
+                if (result[tile.colorIndex] === undefined) {
+                    result[tile.colorIndex] = 0;
+                }
+                result[tile.colorIndex]++;
+            }
+        });
+        return result;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

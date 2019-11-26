@@ -20,30 +20,10 @@ class BombActionStrategy extends ActionStrategy {
     action(fillStrategy, mn) {
         console.log("BombActionStrategy.action");
         return Promise.try(() => {
-
-            const mns = this.findTiles(mn);
-
-            const result = {};
-
-/*            const mns = [mn];
-            for (let _mn of [
-                this.field.calcTop(mn),
-                this.field.calcRight(mn),
-                this.field.calcBottom(mn),
-                this.field.calcLeft(mn)
-            ]) {
-                if (_mn === null) continue;
-                mns.push(_mn);
-                const _tile = this.field.getTile(_mn);
-                if (_tile instanceof RegularTile) {
-                    if (result[_tile.colorIndex] === undefined) {
-                        result[_tile.colorIndex] = 0;
-                    }
-                    result[_tile.colorIndex]++;
-                }
-            }*/
-
-            //console.log("mns:", mns);
+            const bag = this.findTiles(mn);
+            const result = this.calcResult(bag);
+            const mns = bag.toArray();
+            //console.log("mns:", mns.length, mns);
             cc.audioEngine.playEffect(res.soundBurn, false);
             this.field.burnTiles(mns);
             return this.fieldView.fadeOutTiles(mns).then(() => {

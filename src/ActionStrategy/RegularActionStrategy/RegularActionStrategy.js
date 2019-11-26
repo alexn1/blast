@@ -20,14 +20,11 @@ class RegularActionStrategy extends ActionStrategy {
     action(fillStrategy, mn) {
         //console.log("RegularActionStrategy.action", field, fieldView, mn);
         return Promise.try(() => {
-            const mns = this.findTiles(mn);
+            const bag = this.findTiles(mn);
+            const result = this.calcResult(bag);
+            const mns = bag.toArray();
             //console.log("mns:", mns.length, mns);
             if (mns.length >= this.field.game.options.K) {
-                const result = {};
-                const tile = this.field.getTile(mn);
-                result[tile.colorIndex] = mns.length;
-
-
                 cc.audioEngine.playEffect(res.soundBurn, false);
                 this.field.burnTiles(mns);
                 return this.fieldView.fadeOutTiles(mns).then(() => {
