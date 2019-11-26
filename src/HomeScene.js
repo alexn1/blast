@@ -25,7 +25,7 @@ const HomeScene = cc.Scene.extend({
 
 
         // title
-        var title = Helper.createLabelTTF('blast', Helper.getFont(Const.TITLE_FONT_NAME), Const.SCENE_TITLE_FONT_SIZE);
+        const title = Helper.createLabelTTF('blast', Helper.getFont(Const.TITLE_FONT_NAME), Const.SCENE_TITLE_FONT_SIZE);
         title.setPosition(Helper.toLeftTop(cc.visibleRect, cc.visibleRect.center.x, 30));
         this.addChild(title);
 

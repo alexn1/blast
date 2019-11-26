@@ -138,8 +138,8 @@ class Helper {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     static createButton(options) {
         options = options || {};
-        var Scale9SpriteButton = require('./Scale9SpriteButton');
-        var text = 'Button';
+        const Scale9SpriteButton = require('./Scale9SpriteButton');
+        let text = 'Button';
         if (typeof options.text === 'string') {
             text = options.text;
         } else if (typeof options.title === 'string') {
@@ -181,8 +181,8 @@ class Helper {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     static setScale9SpriteFile(scale9Sprite, file) {
-        var width  = scale9Sprite.width;
-        var height = scale9Sprite.height;
+        const width  = scale9Sprite.width;
+        const height = scale9Sprite.height;
         scale9Sprite.initWithFile(file, cc.rect(0, 0, 0, 0), cc.rect(0, 0, 0, 0));
         scale9Sprite.width  = width;
         scale9Sprite.height = height;
@@ -190,7 +190,7 @@ class Helper {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     static createBackButton() {
-        var backButton = Helper.createButton({title: "back", width: 130, hitArea: 10});
+        const backButton = Helper.createButton({title: "back", width: 130, hitArea: 10});
         backButton.setPosition(Helper.toLeftTop(cc.winSize, 10 + 130/2, 10 + 15));
         backButton.onClick = () => {
             cc.director.popScene();

@@ -1,13 +1,13 @@
 'use strict';
 
-var Promise     = require('bluebird');
-var Const       = require('./Const');
-var Helper      = require('./Helper');
-var res         = require('./res');
-var Application = require('./Application');
+const Promise     = require('bluebird');
+const Const       = require('./Const');
+const Helper      = require('./Helper');
+const res         = require('./res');
+const Application = require('./Application');
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-var Scale9SpriteButton = cc.Scale9Sprite.extend({
+const Scale9SpriteButton = cc.Scale9Sprite.extend({
 
     options   : null,
     label     : null,
@@ -39,11 +39,11 @@ var Scale9SpriteButton = cc.Scale9Sprite.extend({
 
         // text
         if (typeof options.text === 'string') {
-            var fontName = options.fontName || Const.TITLE_FONT_NAME;
-            var fontSize = options.fontSize || Const.BUTTON_FONT_SIZE;
+            const fontName = options.fontName || Const.TITLE_FONT_NAME;
+            const fontSize = options.fontSize || Const.BUTTON_FONT_SIZE;
 
             // label
-            var label = this.label = Helper.createLabelTTF(options.text, Helper.getFont(fontName), fontSize);
+            const label = this.label = Helper.createLabelTTF(options.text, Helper.getFont(fontName), fontSize);
             label.setPosition(
                 this.width /2 + (this.options.offsetX || 0),
                 this.height/2 + (this.options.offsetY || 0)
@@ -135,7 +135,7 @@ var Scale9SpriteButton = cc.Scale9Sprite.extend({
     enable() {
         this.isDisabled = false;
         if (this.label) {
-            var fontColor = this.options.fontColor ? this.options.fontColor : Const.WHITE;
+            const fontColor = this.options.fontColor ? this.options.fontColor : Const.WHITE;
             this.setFontColor(fontColor);
         }
     },
