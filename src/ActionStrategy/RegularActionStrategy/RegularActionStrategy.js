@@ -17,13 +17,8 @@ class RegularActionStrategy extends ActionStrategy {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    findTiles(mn) {
-        return this._findColorArea(mn);
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    _findColorArea(mn) {
-        //console.log("RegularActionStrategy.findColorArea", mn);
+    _findTiles(mn) {
+        //console.log("RegularActionStrategy._findTiles", mn);
         const bag = new Bag();
         bag.put(mn);
         this._checkNearby(mn, bag);
@@ -32,7 +27,7 @@ class RegularActionStrategy extends ActionStrategy {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     _checkNearby(mn, bag) {
-        //console.log("RegularActionStrategy.checkNearby", mn, JSON.stringify(bag));
+        //console.log("RegularActionStrategy._checkNearby", mn, JSON.stringify(bag));
         const RegularTile = require("../../Tile/RegularTile/RegularTile");
         const tile = this.field.getTile(mn);
         const myColorIndex = tile.colorIndex;
@@ -55,15 +50,15 @@ class RegularActionStrategy extends ActionStrategy {
     action(fillStrategy, mn) {
         //console.log("RegularActionStrategy.action", field, fieldView, mn);
         return Promise.try(() => {
-            const tile = this.field.getTile(mn);
-            const colorMNs = this._findColorArea(mn);
-            //console.log("colorMNs:", colorMNs.length, colorMNs);
-            const result = {};
-            result[tile.colorIndex] = colorMNs.length;
-            if (colorMNs.length >= this.field.game.options.K) {
+            const mns = this._findTiles(mn);
+            //console.log("mns:", mns.length, mns);
+            if (mns.length >= this.field.game.options.K) {
+                const result = {};
+                const tile = this.field.getTile(mn);
+                result[tile.colorIndex] = mns.length;
                 cc.audioEngine.playEffect(res.soundBurn, false);
-                this.field.burnTiles(colorMNs);
-                return this.fieldView.fadeOutTiles(colorMNs).then(() => {
+                this.field.burnTiles(mns);
+                return this.fieldView.fadeOutTiles(mns).then(() => {
                     const moves = new BottomMoveStrategy().findMoves(this.field);
                     //console.log("moves:", moves);
                     this.field.applyMoves(moves);
