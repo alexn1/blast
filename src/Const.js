@@ -45,11 +45,11 @@ Const.LEVEL_OPTIONS = {
         N: 5,   // columns
         C: 5,   // colors
         K: 2,   // match K
-        moves: 30,
+        moves: 40,
         mission: {
-            '0': 10,
-            '1': 10,
-            '2': 10
+            '0': 15,
+            '1': 15,
+            '2': 15
         }
     },
     '3': {
@@ -57,11 +57,11 @@ Const.LEVEL_OPTIONS = {
         N: 10,   // columns
         C: 5,    // colors
         K: 2,    // match K
-        moves: 30,
+        moves: 50,
         mission: {
-            '0': 10,
-            '1': 10,
-            '2': 10
+            '0': 15,
+            '1': 15,
+            '2': 15
         }
     }
 };
