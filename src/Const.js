@@ -57,7 +57,7 @@ Const.LEVEL_OPTIONS = {
         N: 10,   // columns
         C: 5,    // colors
         K: 2,    // match K
-        moves: 50,
+        moves: 20,
         mission: {
             '0': 15,
             '1': 15,
