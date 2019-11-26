@@ -21,14 +21,17 @@ class RegularActionStrategy extends ActionStrategy {
         //console.log("RegularActionStrategy._findTiles", mn);
         const bag = new Bag();
         bag.put(mn);
-        this._checkNearby(mn, bag);
+        //this._checkNearby(mn, bag);
+        const tile = this.field.getTile(mn);
+        tile.findBurnTiles(this.field, mn, bag);
+
         return bag.toArray();
     }
 
+    /*
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     _checkNearby(mn, bag) {
         //console.log("RegularActionStrategy._checkNearby", mn, JSON.stringify(bag));
-        const RegularTile = require("../../Tile/RegularTile/RegularTile");
         const tile = this.field.getTile(mn);
         const myColorIndex = tile.colorIndex;
         for (let _mn of [
@@ -39,12 +42,13 @@ class RegularActionStrategy extends ActionStrategy {
         ]) {
             if (_mn === null) continue;
             const _tile = this.field.getTile(_mn);
-            if (_tile instanceof RegularTile && _tile.colorIndex === myColorIndex && !bag.contains(_mn)) {
+            if (_tile.constructor.name ==="RegularTile" && _tile.colorIndex === myColorIndex && !bag.contains(_mn)) {
                 bag.put(_mn);
                 this._checkNearby(_mn, bag);
             }
         }
     }
+    */
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     action(fillStrategy, mn) {
