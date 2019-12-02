@@ -109,11 +109,11 @@ const Scale9SpriteButton = cc.Scale9Sprite.extend({
         if (Helper.hitTest(touch, event, this.options.hitArea)) {
             //cc.app.playSound(res.soundTap);
             if (this.onClick) {
-                Promise.try(() => {
+                //Promise.try(() => {
                     return this.onClick(this);
-                })/*.catch((err) => {
-                    return Application.handleClientError(err);
-                })*/;
+                //}).catch((err) => {
+                //    return Application.handleClientError(err);
+                //});
             }
         }
     },

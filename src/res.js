@@ -10,6 +10,7 @@ module.exports = {
     field: "res/field.png",
     bomb : "res/bomb.png",
     back : "res/back.png",
+    star : "res/star.png",
 
     // sound
     soundBurn : 'res/sound/burn.mp3',
