@@ -11,7 +11,8 @@
         "transitions",
         "ccui",
         "audio",
-        "editbox"
+        "editbox",
+        "particle"
     ],
     "noCache": true
 }
