@@ -115,6 +115,7 @@ class FieldView {
     fadeOutTile([m,n]) {
         //console.log("FieldView.fadeOutTile", m, n);
         const tile = this.matrix[m][n];
+        Helper.showExplosion(this.node, tile.x, tile.y, FADE_TIME);
         Helper.runActions(tile, [
             cc.scaleTo(FADE_TIME, 0.6).easing(cc.easeCubicActionOut())
         ]);

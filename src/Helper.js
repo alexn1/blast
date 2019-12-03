@@ -1,9 +1,9 @@
 "use strict";
 
-const Promise = require("bluebird");
-const Const   = require("./Const");
-const res     = require("./res");
-
+const Promise           = require("bluebird");
+const Const             = require("./Const");
+const res               = require("./res");
+const ParticleExplosion = require("./ParticleExplosion");
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class Helper {
@@ -217,6 +217,29 @@ class Helper {
     static fromLeftBottom(node, x, y) {
         return cc.p(x, y);
     };
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    static createExplosion(time) {
+        const emitter = new ParticleExplosion(time);
+        emitter.texture = cc.textureCache.getTextureForKey(res.star);
+        return emitter;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    static showExplosion(parent, x, y, time) {
+        return new Promise(resolve => {
+            const emitter = Helper.createExplosion(time);
+            emitter.setPosition(x, y);
+            parent.addChild(emitter);
+            setTimeout(() => {
+                resolve(emitter);
+            }, time * 1000);
+        }).then(emitter => {
+            parent.removeChild(emitter);
+        });
+    }
+
+
 
 }
 
